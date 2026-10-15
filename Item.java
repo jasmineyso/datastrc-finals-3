@@ -15,6 +15,17 @@ public class Item {
     this.location = location;
   }
 
+  private String[] itemStatus = {"Claimed", "Unclaimed"};
+  public boolean validStatus(String status){
+    for(String s : itemStatus){
+      if(s.equalsIgnoreCase(status)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
   public String getItemID() {
         return itemID;
     }
