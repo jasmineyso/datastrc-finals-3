@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,22 +7,17 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Stack;
 
 public class LostAndFound {
 
     private ArrayList<Item> items = new ArrayList<>();
-    private Stack<String> statusHistory = new Stack<>();
+    private ActivityHistory activityHistory = new ActivityHistory();
 
-    // Initialize the file and load saved records
     public LostAndFound() {
         initializeFile();
-        initializeActivityFile();
         loadItems();
-        loadActivityHistory();
     }
 
-    // Create ITEMS.txt if it does not exist
     private void initializeFile() {
         File file = new File("ITEMS.txt");
 
@@ -34,7 +28,6 @@ public class LostAndFound {
         }
     }
 
-    // Load item records from the file
     private void loadItems() {
         items.clear();
 
@@ -72,7 +65,6 @@ public class LostAndFound {
         }
     }
 
-    // Save all item records to the file
     private void saveItems() {
         try (BufferedWriter writer = new BufferedWriter(
                 new FileWriter("ITEMS.txt"))) {
@@ -95,12 +87,10 @@ public class LostAndFound {
         }
     }
 
-    // Check whether there are no item records
     public boolean isEmpty() {
         return items.isEmpty();
     }
 
-    // Check whether an item ID already exists
     public boolean idExists(String itemID) {
         for (Item item : items) {
             if (item.getItemID().equalsIgnoreCase(itemID)) {
@@ -111,7 +101,6 @@ public class LostAndFound {
         return false;
     }
 
-    // Generate a unique ID using the current year and four digits   
     public String generateID() {
         Random random = new Random();
         String itemID;
@@ -135,8 +124,6 @@ public class LostAndFound {
         return "";
     }
 
-
-    // Add a new item
     public boolean addItem(Item item) {
         if (idExists(item.getItemID())) {
             return false;
@@ -148,12 +135,10 @@ public class LostAndFound {
         return true;
     }
 
-    // Get all item records for other classes to use
     public ArrayList<Item> getItems() {
         return new ArrayList<>(items);
     }
 
-    // Linear Search: find an item by ID, name, or description
     public Item searchItem(String keyword) {
         for (Item item : items) {
             if (item.getItemID().equalsIgnoreCase(keyword)
@@ -169,7 +154,6 @@ public class LostAndFound {
         return null;
     }
 
-    // Find an item using its exact ID
     public Item findItemByID(String itemID) {
         for (Item item : items) {
             if (item.getItemID().equalsIgnoreCase(itemID)) {
@@ -180,8 +164,6 @@ public class LostAndFound {
         return null;
     }
 
-        
-    // Edit an item's name, description, and location
     public boolean updateItem(String itemID, String itemName,
                               String description, int location) {
 
@@ -199,7 +181,6 @@ public class LostAndFound {
         return true;
     }
 
-    // Delete an item record
     public boolean removeItem(String itemID) {
         Item item = findItemByID(itemID);
 
@@ -213,9 +194,6 @@ public class LostAndFound {
         return true;
     }
 
-    
-        
-    // Change an item's status and record the change
     public boolean changeItemStatus(String itemID, String newStatus) {
         
         if (!newStatus.equalsIgnoreCase("Unclaimed")
@@ -242,17 +220,11 @@ public class LostAndFound {
         item.setStatus(newStatus);
         saveItems();
 
-        statusHistory.push(activity);
-        saveActivity(activity);
+        activityHistory.addActivity(activity);
 
         return true;
     }
 
-
-
-    
-    // Insertion Sort: sort item records by report date
-    // Dates must use the yyyy-MM-dd format
     public boolean sortItemsByDate() {
         if (items.isEmpty()) {
             return false;
@@ -276,68 +248,10 @@ public class LostAndFound {
         return true;
     }
 
-        
-    // Return the most recent status changes first
-    public ArrayList<String> getRecentStatusChanges() {
-        ArrayList<String> history = new ArrayList<>();
-
-        Stack<String> temporaryStack = new Stack<>();
-        temporaryStack.addAll(statusHistory);
-
-        while (!temporaryStack.isEmpty()) {
-            history.add(temporaryStack.pop());
-        }
-
-        return history;
+    public ActivityHistory getActivityHistory() {
+        return activityHistory;
     }
 
-        
-    // Create ACTIVITY.txt if it does not exist
-    private void initializeActivityFile() {
-        File file = new File("ACTIVITY.txt");
-
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Error initializing activity file!");
-        }
-    }
-
-    // Load saved status changes into the Stack
-    private void loadActivityHistory() {
-        statusHistory.clear();
-
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader("ACTIVITY.txt"))) {
-
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if (!line.isEmpty()) {
-                    statusHistory.push(line);
-                }
-            }
-
-        } catch (IOException e) {
-            System.out.println("Error loading activity history!");
-        }
-    }
-
-    // Save a status change to ACTIVITY.txt
-    private void saveActivity(String activity) {
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter("ACTIVITY.txt", true))) {
-
-            writer.write(activity);
-            writer.newLine();
-
-        } catch (IOException e) {
-            System.out.println("Error saving activity history!");
-        }
-    }   
-
-    
-    
     public boolean sortItemsByStatus() {
         if (items.isEmpty()) {
             return false;
