@@ -1,4 +1,7 @@
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.*;
+import java.time.format.*;
 
 public class Validations {
   public static Scanner input = new Scanner(System.in); 
@@ -66,4 +69,159 @@ public class Validations {
         }
         return ans;
     }
+
+    public static String stringValidation(String prompt){
+      boolean isValidString = false;
+      String str = "";
+
+      while(!isValidString){
+          System.out.print(prompt);
+          String txt = input.nextLine().trim().replaceAll("\\s+", " ");
+
+          if(txt.isEmpty()){
+              System.out.println("Invalid input. You cannot leave this empty.");
+              continue;
+          }else{
+              str = txt;
+              isValidString = true;
+          }
+      }
+      return str;
+  }
+
+  public static int locationValidation(String prompt){
+    boolean isValidLocation = false;
+    int location = 0;
+
+    while(!isValidLocation){
+        System.out.print(prompt);
+        String txt = input.nextLine().trim();
+
+        if(txt.isEmpty()){
+            System.out.println("Invalid input. You cannot leave this empty.");
+            continue;
+        }
+
+        int num;
+        try{
+            num = Integer.parseInt(txt);
+        }catch(NumberFormatException e){
+            System.out.println("Invalid input. Enter a number from 1 to 5 only.");
+            continue;
+        }
+
+        if(num < 1 || num > 5){
+            System.out.println("Invalid input. Enter a number from 1 to 5 only.");
+            continue;
+        }else{
+            location = num;
+            isValidLocation = true;
+        }
+    }
+    return location;
+  }
+
+  // --------------- itemIDValidation method -----------------------
+
+  public static String itemIDValidation(String prompt, ArrayList<Item> items){
+    boolean isValidID = false;
+    String itemID = "";
+
+    while(!isValidID){
+        System.out.print(prompt);
+        String txt = input.nextLine().trim().toUpperCase();
+
+        if(txt.isEmpty()){
+            System.out.println("Invalid input. You cannot leave this empty.");
+            continue;
+        }
+
+        if(!txt.matches("ITM-\\d{4}")){
+            System.out.println("Invalid input. Item ID must follow the format ITM-0001.");
+            continue;
+        }
+
+        if(txt.equals("ITM-0000")){
+            System.out.println("Invalid input. Item ID cannot be ITM-0000.");
+            continue;
+        }
+
+        boolean alreadyExists = false;
+        for(Item item : items){
+            if(item.getItemID().equalsIgnoreCase(txt)){
+                alreadyExists = true;
+                break;
+            }
+        }
+
+        if(alreadyExists){
+            System.out.println("Invalid input. Item ID " + txt + " already exists.");
+            continue;
+        }else{
+            itemID = txt;
+            isValidID = true;
+        }
+    }
+    return itemID;
+  }
+
+  // -------------- item id search validation method -----------------------
+
+  public static String itemIDSearchValidation(String prompt){
+    boolean isValidID = false;
+    String itemID = "";
+
+    while(!isValidID){
+        System.out.print(prompt);
+        String txt = input.nextLine().trim().toUpperCase();
+
+        if(txt.isEmpty()){
+            System.out.println("Invalid input. You cannot leave this empty.");
+            continue;
+        }
+
+        if(!txt.matches("ITM-\\d{4}")){
+            System.out.println("Invalid input. Item ID must follow the format ITM-0001.");
+            continue;
+        }else{
+            itemID = txt;
+            isValidID = true;
+        }
+    }
+    return itemID;
+  }
+
+  public static String dateValidation(String prompt){
+    boolean isValidDate = false;
+    String date = "";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd")
+                                                   .withResolverStyle(ResolverStyle.STRICT);
+
+    while(!isValidDate){
+        System.out.print(prompt);
+        String txt = input.nextLine().trim();
+
+        if(txt.isEmpty()){
+            System.out.println("Invalid input. You cannot leave this empty.");
+            continue;
+        }
+
+        LocalDate parsedDate;
+        try{
+            parsedDate = LocalDate.parse(txt, formatter);
+        }catch(DateTimeParseException e){
+            System.out.println("Invalid input. Enter a valid date in YYYY-MM-DD format.");
+            continue;
+        }
+
+        if(parsedDate.isAfter(LocalDate.now())){
+            System.out.println("Invalid input. Date reported cannot be in the future.");
+            continue;
+        }else{
+            date = txt;
+            isValidDate = true;
+        }
+    }
+    return date;
+  }
 }
