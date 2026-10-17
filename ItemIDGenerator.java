@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class ItemIDGenerator {
   private static final String PREFIX = "IT";
-  private static final String PATTERN = "^IT\\d{4, }$";
+  private static final String PATTERN = "^IT\\d{4}$";
 
   public static String nextID(ArrayList<Item> items){
     int max = 0;
