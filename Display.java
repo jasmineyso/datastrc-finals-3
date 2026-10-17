@@ -55,6 +55,22 @@ public class Display {
     System.out.println(" Total items: " + items.size());
   }
 
+  public static void displayItem(Item item){
+    String format = " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n";
+    String lightLine = "-".repeat(MENU_WIDTH);
+
+    System.out.printf(format, "ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION", "STATUS");
+    System.out.println(lightLine);
+    System.out.printf(format,
+          item.getItemID(),
+          fit(item.getItemName(), 22),
+          fit(item.getDescription(), 40),
+          item.getDateReported(),
+          item.getLocation(),
+          item.getStatus());
+    System.out.println(lightLine);
+  }
+
   private static String fit(String text, int width){
     if(text.length() <= width){
       return text;

@@ -124,15 +124,9 @@ public class LostAndFound {
         return "";
     }
 
-    public boolean addItem(Item item) {
-        if (idExists(item.getItemID())) {
-            return false;
-        }
-
+    public void addItem(Item item) {
         items.add(item);
         saveItems();
-
-        return true;
     }
 
     public ArrayList<Item> getItems() {
