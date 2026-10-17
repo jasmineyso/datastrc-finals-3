@@ -57,7 +57,6 @@ public class Main {
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
-        lostAndFound.saveItems(lostAndFound.buildItemRecord(item))
         System.out.println("Item reported successfully.");
     }
 

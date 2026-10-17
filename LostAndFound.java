@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -81,11 +80,9 @@ public class LostAndFound {
     }
 
     public void saveItems(String itemRecord) {
-        try(BufferedWriter out = new BufferedWriter(new FileWriter("ITEMS.txt"))){
-            for(Item item : items){
-                out.write(itemRecord);
-                out.newLine();
-            }
+        try(BufferedWriter out = new BufferedWriter(new FileWriter("ITEMS.txt", true))){
+            out.write(itemRecord);
+            out.newLine();
         }catch(IOException e){
                 System.out.println("Could not save items: " + e.getMessage());
             }
@@ -130,6 +127,8 @@ public class LostAndFound {
 
     public void addItem(Item item) {
         items.add(item);
+        String itemRecord = buildItemRecord(item);
+        saveItems(itemRecord);
     }
 
     public ArrayList<Item> getItems() {
@@ -176,8 +175,7 @@ public class LostAndFound {
         item.setLocation(location);
 
         removeItem(itemID);
-        String itemRecord = buildItemRecord(item);
-        saveItems(itemRecord);
+        addItem(item);
     }
 
     public void removeItem(String itemID) {
@@ -207,6 +205,7 @@ public class LostAndFound {
             }
         } catch (IOException e) {
             System.out.println("Error in reading file.");
+            return;
         }
 
         try (FileWriter writer = new FileWriter("ITEMS.txt")) {
