@@ -226,7 +226,7 @@ public class LostAndFound {
         }
 
         Item item = findItemByID(itemID);
-        if(item == null){return;}
+        if(item == null){System.out.println("Item not found."); return;}
 
         String oldStatus = item.getStatus();
         if(oldStatus.equalsIgnoreCase(oldStatus)){
