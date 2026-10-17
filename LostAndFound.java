@@ -225,9 +225,9 @@ public class LostAndFound {
         return true;
     }
 
-    public boolean sortItemsByDate() {
+    public ArrayList<Item> sortItemsByDate() {
         if (items.isEmpty()) {
-            return false;
+            return new ArrayList<>();
         }
 
         for (int i = 1; i < items.size(); i++) {
@@ -245,7 +245,7 @@ public class LostAndFound {
         }
 
         saveItems();
-        return true;
+        return items;
     }
 
     public ActivityHistory getActivityHistory() {
