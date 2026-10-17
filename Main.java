@@ -1,4 +1,7 @@
-import java.util.*;
+public class Main {
+    private static LostAndFound lostAndFound;
+    public static void main(String[] args) {
+        lostAndFound = new LostAndFound();
 
 public class Main{
 
@@ -10,24 +13,29 @@ public class Main{
         System.out.println("CAMPUS LOST AND FOUND MANAGEMENT SYSTEM");
 
         boolean isExit = false;
-        while(!isExit){
+
+        while (!isExit) {
             Display.headerTitle("Main Menu");
             Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Change Item Status", "Exit");                
             int menu = Validations.intValidation("Enter Menu Choice: ", 6);
 
-            switch(menu){
+            switch (menu) {
                 case 1:
                     reportItem();
                     break;
+
                 case 2:
                     displayItems();
                     break;
+
                 case 3:
                     searchItem();
                     break;
+
                 case 4:
                     editItemRecord();
                     break;
+
                 case 5:
                     changeItemStatus();
                     break;
@@ -37,7 +45,6 @@ public class Main{
                     break;
             }
         }
-        
     }
 
     private static void reportItem(){

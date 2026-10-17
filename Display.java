@@ -12,7 +12,7 @@ public class Display {
   }
 
   public static void headerTitle(String title){
-    String heavyLine = "=".repeat(MENU_WIDTH);
+    String heavyLine = "=".repeat(MENU_WIDTH); 
     int center = Math.max(0, (MENU_WIDTH - title.length()) / 2);
 
     System.out.println();
