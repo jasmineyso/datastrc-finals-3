@@ -55,7 +55,9 @@ public class Main {
 
         String itemID = ItemIDGenerator.nextID(items);
 
-        lostAndFound.addItem(new Item(itemID, name, description, date, location));
+        Item item = new Item(itemID, name, description, date, location);
+        lostAndFound.addItem(item);
+        lostAndFound.saveItems(lostAndFound.buildItemRecord(item))
         System.out.println("Item reported successfully.");
     }
 
@@ -101,7 +103,7 @@ public class Main {
             System.out.println("Item " + itemID + " not found.");
             return;
         }
-        
+
         Display.headerTitle("Item Details");
         Display.displayItem(foundItem);
     }

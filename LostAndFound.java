@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
@@ -80,14 +81,14 @@ public class LostAndFound {
     }
 
     public void saveItems(String itemRecord) {
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter("ITEMS.txt"))) {
-
-            writer.write(itemRecord);
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("Error saving item records!");
-        }
+        try(BufferedWriter out = new BufferedWriter(new FileWriter("ITEMS.txt"))){
+            for(Item item : items){
+                out.write(itemRecord);
+                out.newLine();
+            }
+        }catch(IOException e){
+                System.out.println("Could not save items: " + e.getMessage());
+            }
     }
 
     public boolean isEmpty() {
@@ -174,9 +175,9 @@ public class LostAndFound {
         item.setDescription(description);
         item.setLocation(location);
 
+        removeItem(itemID);
         String itemRecord = buildItemRecord(item);
         saveItems(itemRecord);
-
     }
 
     public void removeItem(String itemID) {
@@ -216,31 +217,29 @@ public class LostAndFound {
     }
 
 
-    public boolean changeItemStatus(String itemID, String newStatus) {
+    public void changeItemStatus(String itemID, String newStatus) {
         
-        if (!newStatus.equalsIgnoreCase("Unclaimed")
-                && !newStatus.equalsIgnoreCase("Claimed")) {
-            return false;
+        if(newStatus.equalsIgnoreCase("Claimed")){
+            newStatus = "Claimed";
+        }else{
+            newStatus = "Unclaimed";
         }
 
         Item item = findItemByID(itemID);
-
-        if (item == null) {
-            return false;
-        }
+        if(item == null){return;}
 
         String oldStatus = item.getStatus();
-
-        if (oldStatus.equalsIgnoreCase(newStatus)) {
-            return false;
+        if(oldStatus.equalsIgnoreCase(oldStatus)){
+            System.out.println("Status did not change.");
+            return;
         }
+
+        item.setStatus(newStatus);
+        saveItems(buildItemRecord(item));
 
         String activity = "Item ID: " + itemID
                 + " | " + oldStatus
                 + " -> " + newStatus;
-
-        item.setStatus(newStatus);
-        saveItems();
 
         activityHistory.addActivity(activity);
     }
@@ -263,8 +262,6 @@ public class LostAndFound {
 
             items.set(j + 1, current);
         }
-
-        saveItems();
         return items;
     }
 
@@ -290,8 +287,6 @@ public class LostAndFound {
 
             items.set(j + 1, current);
         }
-
-        saveItems();
         return true;
     }
 }
