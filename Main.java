@@ -59,6 +59,7 @@ public class Main {
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
+        Display.displayItem(item);
         System.out.println("Item reported successfully.");
     }
 
