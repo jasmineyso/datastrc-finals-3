@@ -5,7 +5,7 @@ import java.time.format.*;
 
 public class Validations {
   public static Scanner input = new Scanner(System.in); 
-    public static int menuChecker(String prompt, int max){
+    public static int intValidation(String prompt, int max){
     boolean isValidMenu = false;
     int menu = 0;
 
@@ -87,38 +87,6 @@ public class Validations {
           }
       }
       return str;
-  }
-
-  public static int locationValidation(String prompt){
-    boolean isValidLocation = false;
-    int location = 0;
-
-    while(!isValidLocation){
-        System.out.print(prompt);
-        String txt = input.nextLine().trim();
-
-        if(txt.isEmpty()){
-            System.out.println("Invalid input. You cannot leave this empty.");
-            continue;
-        }
-
-        int num;
-        try{
-            num = Integer.parseInt(txt);
-        }catch(NumberFormatException e){
-            System.out.println("Invalid input. Enter a number from 1 to 5 only.");
-            continue;
-        }
-
-        if(num < 1 || num > 5){
-            System.out.println("Invalid input. Enter a number from 1 to 5 only.");
-            continue;
-        }else{
-            location = num;
-            isValidLocation = true;
-        }
-    }
-    return location;
   }
 
   // --------------- itemIDValidation method -----------------------

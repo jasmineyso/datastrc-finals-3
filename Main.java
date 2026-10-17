@@ -13,7 +13,7 @@ public class Main{
         while(!isExit){
             Display.headerTitle("Main Menu");
             Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Change Item Status", "Exit");                
-            int menu = Validations.menuChecker("Enter Menu Choice: ", 6);
+            int menu = Validations.intValidation("Enter Menu Choice: ", 6);
 
             switch(menu){
                 case 1:
@@ -47,7 +47,7 @@ public class Main{
         String name = Validations.stringValidation("Item Name: ");
         String description = Validations.stringValidation("Item Description: ");
         String date = Validations.dateValidation("Date Reported (YYYY-MM-DD): ");
-        int location = Validations.locationValidation("Location (1-5): ");
+        int location = Validations.intValidation("Location (1-5): ", 5);
 
         items.add(new Item(itemID, name, description, date, "Unclaimed", location));
         System.out.println("Item reported successfully.");
@@ -59,7 +59,7 @@ public class Main{
         while(!returnMainMenu){
             Display.headerTitle("Display Items:");
             Display.displayMenu("All Items", "Sort by Date", "Sort by Items Lost", "Sort by Items Found", "Return to Main Menu");
-            int menu = Validations.menuChecker("Enter Menu Choice: ", 5);
+            int menu = Validations.intValidation("Enter Menu Choice: ", 5);
 
             switch(menu){
                 case 1:
@@ -124,11 +124,36 @@ public class Main{
     // --------------- methods for display items -----------------------
 
     private static void displayAllItems(){
+        if(items.isEmpty()){
+            System.out.println("No items have been reported yet.");
+            return;
+        }
 
+        Display.subHeaderTitle("All Items");
+        Display.itemsTable(items);
     }
 
     private static void sortByDate(){
+        if(items.isEmpty()){
+            System.out.println("No items have been reported yet.");
+            return;
+        }
 
+        ArrayList<Item> sorted = new ArrayList<>(items);
+
+        for(int i = 1; i < sorted.size(); i++){
+            Item current = sorted.get(i);
+            int j = i - 1;
+
+            while(j >= 0 && sorted.get(j).getDateReported().compareTo(current.getDateReported()) > 0){
+                sorted.set(j + 1, sorted.get(j));
+                j--;
+            }
+            sorted.set(j + 1, current);
+        }
+
+        Display.subHeaderTitle("Items Sorted by Date (Oldest to Newest)");
+        Display.itemsTable(sorted);
     }
 
     private static void sortByItemLost(){
