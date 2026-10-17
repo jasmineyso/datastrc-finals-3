@@ -35,7 +35,7 @@ public class Item {
         return status;
     }
 
-    public int location(){
+    public int getLocation(){
       return location;
     }
 
