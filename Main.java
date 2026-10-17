@@ -54,7 +54,7 @@ public class Main {
         int location = Validations.intValidation("Location (1-5): ", 5);
 
         String itemID = ItemIDGenerator.nextID(items);
-        
+
         lostAndFound.addItem(new Item(itemID, name, description, date, location));
         System.out.println("Item reported successfully.");
     }
@@ -101,6 +101,7 @@ public class Main {
             System.out.println("Item " + itemID + " not found.");
             return;
         }
+        
         Display.headerTitle("Item Details");
         Display.displayItem(foundItem);
     }

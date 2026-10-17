@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class LostAndFound {
 
     private ArrayList<Item> items = new ArrayList<>();
     private ActivityHistory activityHistory = new ActivityHistory();
+
+    public static final int ITEM_ID = 0, ITEM_NAME = 1, ITEM_DESCRIPTION = 2, ITEM_DATE_REPORTED = 3, ITEM_STATUS = 4, ITEM_LOCATION = 5, ITEM_FIELD_COUNT = 6;
 
     public LostAndFound() {
         initializeFile();
@@ -26,6 +29,18 @@ public class LostAndFound {
         } catch (IOException e) {
             System.out.println("Error initializing item file!");
         }
+    }
+
+    public String buildItemRecord(Item item){
+        String[] itemRecord = new String[ITEM_FIELD_COUNT];
+        itemRecord[ITEM_ID] = item.getItemID();
+        itemRecord[ITEM_NAME] = item.getItemName();
+        itemRecord[ITEM_DESCRIPTION] = item.getDescription();
+        itemRecord[ITEM_DATE_REPORTED] = item.getDateReported();
+        itemRecord[ITEM_STATUS] = item.getStatus();
+        itemRecord[ITEM_LOCATION] = String.valueOf(item.getLocation());
+
+        return String.join("|", itemRecord);
     }
 
     private void loadItems() {
@@ -46,8 +61,7 @@ public class LostAndFound {
                             data[1],
                             data[2],
                             data[3],
-                            data[4],
-                            Integer.parseInt(data[5])
+                            Integer.parseInt(data[4])
                         );
 
                         items.add(item);
@@ -65,23 +79,12 @@ public class LostAndFound {
         }
     }
 
-    private void saveItems() {
+    public void saveItems(String itemRecord) {
         try (BufferedWriter writer = new BufferedWriter(
                 new FileWriter("ITEMS.txt"))) {
 
-            for (Item item : items) {
-                writer.write(
-                    item.getItemID() + "|" +
-                    item.getItemName() + "|" +
-                    item.getDescription() + "|" +
-                    item.getDateReported() + "|" +
-                    item.getStatus() + "|" +
-                    item.location()
-                );
-
-                writer.newLine();
-            }
-
+            writer.write(itemRecord);
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("Error saving item records!");
         }
@@ -126,7 +129,6 @@ public class LostAndFound {
 
     public void addItem(Item item) {
         items.add(item);
-        saveItems();
     }
 
     public ArrayList<Item> getItems() {
@@ -158,35 +160,61 @@ public class LostAndFound {
         return null;
     }
 
-    public boolean updateItem(String itemID, String itemName,
+    public void updateItem(String itemID, String itemName,
                               String description, int location) {
 
         Item item = findItemByID(itemID);
 
         if (item == null) {
-            return false;
+            System.out.println("No item found.");
+            return;
         }
 
         item.setItemName(itemName);
         item.setDescription(description);
         item.setLocation(location);
 
-        saveItems();
-        return true;
+        String itemRecord = buildItemRecord(item);
+        saveItems(itemRecord);
+
     }
 
-    public boolean removeItem(String itemID) {
+    public void removeItem(String itemID) {
         Item item = findItemByID(itemID);
 
         if (item == null) {
-            return false;
+            System.out.println("No item found.");
+            return;
         }
 
         items.remove(item);
-        saveItems();
-
-        return true;
+        removeRecord(itemID, ITEM_ID);
     }
+
+    public void removeRecord(String searchFor, int colIndex) {
+        File file = new File("ITEMS.txt");
+        StringBuilder updated = new StringBuilder();
+
+        try (Scanner read = new Scanner(file)) {
+            while (read.hasNextLine()) {
+                String line = read.nextLine();
+                String[] parts = line.split("\\s*\\|\\s*");
+                if (parts.length > colIndex && parts[colIndex].trim().equalsIgnoreCase(searchFor)) {
+                    continue;
+                }
+                updated.append(line).append(System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Error in reading file.");
+        }
+
+        try (FileWriter writer = new FileWriter("ITEMS.txt")) {
+            writer.write(updated.toString());
+        } catch (IOException e) {
+            System.out.println("Error in writing file.");
+        }
+    }
+
 
     public boolean changeItemStatus(String itemID, String newStatus) {
         
@@ -215,8 +243,6 @@ public class LostAndFound {
         saveItems();
 
         activityHistory.addActivity(activity);
-
-        return true;
     }
 
     public ArrayList<Item> sortItemsByDate() {
