@@ -46,23 +46,29 @@ public class LostAndFound {
     private void loadItems() {
         items.clear();
 
+        File file = new File("ITEMS.txt");
+        if(!file.exists()){return;}
+
         try (BufferedReader reader = new BufferedReader(
-                new FileReader("ITEMS.txt"))) {
+                new FileReader(file))) {
 
             String line;
 
             while ((line = reader.readLine()) != null) {
+                if(line.trim().isEmpty()){continue;}
                 String[] data = line.split("\\|", -1);
 
-                if (data.length == 6) {
+                if (data.length == ITEM_FIELD_COUNT) {
                     try {
                         Item item = new Item(
-                            data[0],
-                            data[1],
-                            data[2],
-                            data[3],
-                            Integer.parseInt(data[4])
+                            data[ITEM_ID].trim(),
+                            data[ITEM_NAME].trim(),
+                            data[ITEM_DESCRIPTION].trim(),
+                            data[ITEM_DATE_REPORTED].trim(),
+                            Integer.parseInt(data[ITEM_LOCATION].trim())
                         );
+
+                        item.setStatus(data[ITEM_STATUS].trim());
 
                         items.add(item);
 
@@ -132,7 +138,7 @@ public class LostAndFound {
     }
 
     public ArrayList<Item> getItems() {
-        return new ArrayList<>(items);
+        return items;
     }
 
     public Item searchItem(String keyword) {

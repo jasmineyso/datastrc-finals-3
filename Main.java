@@ -1,9 +1,9 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     private static LostAndFound lostAndFound = new LostAndFound();
-    private static ArrayList<Item> items = lostAndFound.getItems();
     public Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args){
@@ -46,21 +46,29 @@ public class Main {
     }
 
     private static void reportItem(){
+        ArrayList<Item> items = lostAndFound.getItems();
+
         Display.headerTitle("Report An Item");
         Display.subHeaderTitle("Enter Item Details");
         String name = Validations.stringValidation("Item Name: ");
         String description = Validations.stringValidation("Item Description: ");
-        String date = Validations.dateValidation("Date Reported (YYYY-MM-DD): ");
+        String date = LocalDate.now().toString();
         int location = Validations.intValidation("Location (1-5): ", 5);
 
         String itemID = ItemIDGenerator.nextID(items);
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
+        Display.displayItem(item);
         System.out.println("Item reported successfully.");
     }
 
     private static void displayItems(){
+        ArrayList<Item> items = lostAndFound.getItems();
+        if(items.isEmpty()){
+            System.out.println("No items have been reported yet.");
+            return;
+        }
         boolean returnMainMenu = false;
         
         while(!returnMainMenu){
@@ -70,7 +78,7 @@ public class Main {
 
             switch(menu){
                 case 1:
-                    displayAllItems();
+                    displayAllItems(items);
                     break;
                 case 2:
                     sortByDate();
@@ -89,6 +97,7 @@ public class Main {
     }
 
     private static void searchItem(){
+        ArrayList<Item> items = lostAndFound.getItems();
         if(items.isEmpty()){
             System.out.println("No items have been reported yet.");
             return;
@@ -118,12 +127,7 @@ public class Main {
 
     // --------------- methods for display items -----------------------
 
-    private static void displayAllItems(){
-        if(items.isEmpty()){
-            System.out.println("No items have been reported yet.");
-            return;
-        }
-
+    private static void displayAllItems(ArrayList<Item> items){
         Display.subHeaderTitle("All Items");
         Display.itemsTable(items);
     }
