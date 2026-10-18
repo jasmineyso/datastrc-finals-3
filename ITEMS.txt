@@ -3,3 +3,4 @@ ITM-0002|Turbo fan|Jisu Life|2026-10-18|Unclaimed|3
 ITM-0003|Wallet|Black|2026-10-15|Unclaimed|1
 ITM-0004|Phone|Iphone|2026-10-18|Unclaimed|3
 ITM-0005|Charger|33W white|2026-10-18|Unclaimed|5
+ITM-0006|Bracelet|Pink|2026-10-19|Unclaimed|2

@@ -55,7 +55,7 @@ public class Display {
     System.out.println(" Total items: " + items.size());
   }
 
-  public static void displayItem(Item item){
+  public static void displayItems(Item item){
     String format = " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n";
     String lightLine = "-".repeat(MENU_WIDTH);
 
@@ -69,6 +69,18 @@ public class Display {
           item.getLocation(),
           item.getStatus());
     System.out.println(lightLine);
+  }
+
+  public static void displayAnItem(String[][] itemDetails, String title){
+    int labelWidth = 0;
+    for (String[] row : itemDetails) {
+      labelWidth = Math.max(labelWidth, row[0].length());
+    }
+
+    subHeaderTitle(title);
+    for (String[] row : itemDetails) {
+      System.out.printf(" %-" + labelWidth + "s : %s%n", row[0], row[1]);
+    }
   }
 
   private static String fit(String text, int width){

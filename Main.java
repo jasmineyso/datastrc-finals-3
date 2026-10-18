@@ -20,7 +20,7 @@ public class Main {
             switch (menu) {
                 case 1 -> reportItem();
 
-                case 2 -> displayItems();
+                case 2 -> displayItemsMain();
 
                 case 3 -> searchItem();
 
@@ -47,11 +47,11 @@ public class Main {
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
-        Display.displayItem(item);
+        Display.displayItems(item);
         System.out.println("Item reported successfully.");
     }
 
-    private static void displayItems(){
+    private static void displayItemsMain(){
         ArrayList<Item> items = lostAndFound.getItems();
         if(items.isEmpty()){
             System.out.println("No items have been reported yet.");
