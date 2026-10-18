@@ -116,13 +116,108 @@ public class Main {
         Display.displayItem(foundItem);
     }
 
-    private static void editItemRecord(){
+    private static void editItemRecord() {
+    ArrayList<Item> items = lostAndFound.getItems();
 
+    if (items.isEmpty()) {
+        System.out.println("No items have been reported yet.");
+        return;
     }
 
-    private static void changeItemStatus(){
+    String itemID = Validations.itemIDSearchValidation(
+        "Enter Item ID to Edit: "
+    );
 
+    Item item = lostAndFound.searchItem(itemID);
+
+    if (item == null) {
+        System.out.println("Item " + itemID + " not found.");
+        return;
     }
+
+    boolean returnMenu = false;
+
+    while (!returnMenu) {
+        Display.headerTitle("Edit Item Record");
+        Display.displayMenu(
+            "Edit Item Name",
+            "Edit Description",
+            "Edit Location",
+            "Return"
+        );
+
+        int choice = Validations.intValidation(
+            "Enter Menu Choice: ", 4
+        );
+
+        switch (choice) {
+            case 1:
+                String name = Validations.stringValidation(
+                    "Enter New Item Name: "
+                );
+                item.setItemName(name);
+                System.out.println("Item name updated successfully.");
+                break;
+
+            case 2:
+                String description = Validations.stringValidation(
+                    "Enter New Description: "
+                );
+                item.setDescription(description);
+                System.out.println("Description updated successfully.");
+                break;
+
+            case 3:
+                int location = Validations.intValidation(
+                    "Enter New Location (1-5): ", 5
+                );
+                item.setLocation(location);
+                System.out.println("Location updated successfully.");
+                break;
+
+            case 4:
+                returnMenu = true;
+                break;
+        }
+    }
+}
+
+    private static void changeItemStatus() {
+    ArrayList<Item> items = lostAndFound.getItems();
+
+    if (items.isEmpty()) {
+        System.out.println("No items have been reported yet.");
+        return;
+    }
+
+    String itemID = Validations.itemIDSearchValidation(
+        "Enter Item ID: "
+    );
+
+    Item item = lostAndFound.searchItem(itemID);
+
+    if (item == null) {
+        System.out.println("Item " + itemID + " not found.");
+        return;
+    }
+
+    Display.headerTitle("Change Item Status");
+    System.out.println("Item Name: " + item.getItemName());
+    System.out.println("Current Status: " + item.getStatus());
+
+    Display.displayMenu("Lost", "Found");
+
+    int choice = Validations.intValidation(
+        "Select New Status: ", 2
+    );
+
+    String status = (choice == 1) ? "Lost" : "Found";
+
+    item.setStatus(status);
+
+    System.out.println("Item status updated successfully.");
+    Display.displayItem(item);
+}
 
 
     // --------------- methods for display items -----------------------
