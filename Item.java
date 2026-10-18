@@ -6,14 +6,25 @@ public class Item {
   private String status;
   private int location;
 
-  public Item(String itemID, String itemName, String description, String dateReported, String status, int location){
+  public Item(String itemID, String itemName, String description, String dateReported, int location){
     this.itemID = itemID;
     this.itemName = itemName;
     this.description = description;
     this.dateReported = dateReported;
-    this.status = status;
+    this.status = "Unclaimed";
     this.location = location;
   }
+
+  private String[] itemStatus = {"Claimed", "Unclaimed"};
+  public boolean validStatus(String status){
+    for(String s : itemStatus){
+      if(s.equalsIgnoreCase(status)){
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   public String getItemID() {
         return itemID;
@@ -35,7 +46,7 @@ public class Item {
         return status;
     }
 
-    public int location(){
+    public int getLocation(){
       return location;
     }
 
