@@ -1,8 +1,13 @@
 import java.util.ArrayList;
 
 public class ItemIDGenerator {
+<<<<<<< HEAD
   private static final String PREFIX = "IT";
   private static final String PATTERN = "^IT\\d{4}$";
+=======
+  private static final String PREFIX = "ITM-";
+  private static final String PATTERN = "^ITM-\\d{4}$";
+>>>>>>> origin/master
 
   public static String nextID(ArrayList<Item> items){
     int max = 0;
