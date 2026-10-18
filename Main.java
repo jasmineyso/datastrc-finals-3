@@ -238,12 +238,42 @@ public class Main {
         Display.itemsTable(sorted);
     }
 
-    private static void sortByItemLost(){
+    private static void sortByItemLost() {
+    ArrayList<Item> items = lostAndFound.getItems();
+    ArrayList<Item> lostItems = new ArrayList<>();
 
+    for (Item item : items) {
+        if (item.getStatus().equalsIgnoreCase("Unclaimed")) {
+            lostItems.add(item);
+        }
     }
 
-    private static void sortByItemsFound(){
-
+    if (lostItems.isEmpty()) {
+        System.out.println("No lost items found.");
+        return;
     }
+
+    Display.subHeaderTitle("Lost Items");
+    Display.itemsTable(lostItems);
+}
+
+    private static void sortByItemsFound() {
+    ArrayList<Item> items = lostAndFound.getItems();
+    ArrayList<Item> foundItems = new ArrayList<>();
+
+    for (Item item : items) {
+        if (item.getStatus().equalsIgnoreCase("Claimed")) {
+            foundItems.add(item);
+        }
+    }
+
+    if (foundItems.isEmpty()) {
+        System.out.println("No found items found.");
+        return;
+    }
+
+    Display.subHeaderTitle("Found Items");
+    Display.itemsTable(foundItems);
+}
 
 }
