@@ -18,31 +18,19 @@ public class Main {
             int menu = Validations.intValidation("Enter Menu Choice: ", 6);
 
             switch (menu) {
-                case 1:
-                    reportItem();
-                    break;
+                case 1 -> reportItem();
 
-                case 2:
-                    displayItems();
-                    break;
+                case 2 -> displayItems();
 
-                case 3:
-                    searchItem();
-                    break;
+                case 3 -> searchItem();
 
-                case 4:
-                    editItemRecord();
-                    break;
+                case 4 -> editItemRecord();
 
-                case 5:
-                    changeItemStatus();
-                    break;
-                case 6:
-                    isExit = true;
-                    System.out.println("Exiting the program. Goodbye!");
-                    break;
+                case 5 -> changeItemStatus();
+                case 6 -> isExit = true;
             }
         }
+        System.out.println("Exiting the program. Goodbye!");
     }
 
     private static void reportItem(){
@@ -69,30 +57,16 @@ public class Main {
             System.out.println("No items have been reported yet.");
             return;
         }
-        boolean returnMainMenu = false;
         
-        while(!returnMainMenu){
-            Display.headerTitle("Display Items:");
-            Display.displayMenu("All Items", "Sort by Date", "Sort by Items Lost", "Sort by Items Found", "Return to Main Menu");
-            int menu = Validations.intValidation("Enter Menu Choice: ", 5);
+        Display.headerTitle("Display Items:");
+        Display.displayMenu("All Items", "Sort by Date", "Sort by Items Lost (Unclaimed)", "Sort by Items Found (Claimed)", "Return to Main Menu");
+        int menu = Validations.intValidation("Enter Menu Choice: ", 5);
 
-            switch(menu){
-                case 1:
-                    displayAllItems(items);
-                    break;
-                case 2:
-                    sortByDate();
-                    break;
-                case 3:
-                    sortByItemLost();
-                    break;
-                case 4:
-                    sortByItemsFound();
-                    break;                    
-                case 5:
-                    returnMainMenu = true;
-                    break;
-            }
+        switch(menu){
+            case 1 -> displayAllItems(items);
+            case 2 -> sortByDate();
+            case 3 -> sortByItemLost();
+            case 4 -> sortByItemsFound();                    
         }
     }
 
@@ -135,50 +109,42 @@ public class Main {
         return;
     }
 
-    boolean returnMenu = false;
+    Display.headerTitle("Edit Item Record");
+    Display.displayMenu(
+        "Edit Item Name",
+        "Edit Description",
+        "Edit Location",
+        "Return"
+    );
 
-    while (!returnMenu) {
-        Display.headerTitle("Edit Item Record");
-        Display.displayMenu(
-            "Edit Item Name",
-            "Edit Description",
-            "Edit Location",
-            "Return"
-        );
+    int choice = Validations.intValidation(
+        "Enter Menu Choice: ", 4
+    );
 
-        int choice = Validations.intValidation(
-            "Enter Menu Choice: ", 4
-        );
+    switch (choice) {
+        case 1:
+            String name = Validations.stringValidation(
+                "Enter New Item Name: "
+            );
+            item.setItemName(name);
+            System.out.println("Item name updated successfully.");
+            break;
 
-        switch (choice) {
-            case 1:
-                String name = Validations.stringValidation(
-                    "Enter New Item Name: "
-                );
-                item.setItemName(name);
-                System.out.println("Item name updated successfully.");
-                break;
+        case 2:
+            String description = Validations.stringValidation(
+                "Enter New Description: "
+            );
+            item.setDescription(description);
+            System.out.println("Description updated successfully.");
+            break;
 
-            case 2:
-                String description = Validations.stringValidation(
-                    "Enter New Description: "
-                );
-                item.setDescription(description);
-                System.out.println("Description updated successfully.");
-                break;
-
-            case 3:
-                int location = Validations.intValidation(
-                    "Enter New Location (1-5): ", 5
-                );
-                item.setLocation(location);
-                System.out.println("Location updated successfully.");
-                break;
-
-            case 4:
-                returnMenu = true;
-                break;
-        }
+        case 3:
+            int location = Validations.intValidation(
+                "Enter New Location (1-5): ", 5
+            );
+            item.setLocation(location);
+            System.out.println("Location updated successfully.");
+            break;
     }
 }
 
@@ -205,13 +171,19 @@ public class Main {
     System.out.println("Item Name: " + item.getItemName());
     System.out.println("Current Status: " + item.getStatus());
 
-    Display.displayMenu("Lost", "Found");
+    Display.subHeaderTitle("Choose Status");
+    Display.displayMenu("Claimed", "Unclaimed");
 
     int choice = Validations.intValidation(
         "Select New Status: ", 2
     );
 
-    String status = (choice == 1) ? "Lost" : "Found";
+    String status = (choice == 1) ? "Claimed" : "Unclaimed";
+
+    if(item.getStatus().equalsIgnoreCase(status)){
+        System.out.println("Status is already set to " + item.getStatus() + ". No changes were made.");
+        return;
+    }
 
     item.setStatus(status);
 
@@ -249,7 +221,7 @@ public class Main {
     }
 
     if (lostItems.isEmpty()) {
-        System.out.println("No lost items found.");
+        System.out.println("No unclaimed items found.");
         return;
     }
 
@@ -268,7 +240,7 @@ public class Main {
     }
 
     if (foundItems.isEmpty()) {
-        System.out.println("No found items found.");
+        System.out.println("No claimed items found.");
         return;
     }
 
