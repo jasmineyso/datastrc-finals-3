@@ -144,7 +144,7 @@ public class Main {
             );
             item.setLocation(location);
             System.out.println("Location updated successfully.");
-            break;
+            break; 
     }
 }
 
