@@ -144,8 +144,12 @@ public class Main {
                     "Enter New Item Name: "
                 );
 
-                System.out.println("\'" + item.getItemName() + "\' is updated to " + name + "               successfully.");
+                if(item.getItemName().equalsIgnoreCase(name)){
+                    System.out.println("Name is already set to " + item.getItemName() + ". No changes were made.");
+                }else{
+                    System.out.println("\'" + item.getItemName() + "\' is updated to " + name + "               successfully.");
                 item.setItemName(name);
+                }
                 break;
 
             case 2:
@@ -153,8 +157,13 @@ public class Main {
                     "Enter New Description: "
                 );
 
-                System.out.println("\'" + item.getDescription() + "\' is updated to " + description + "               successfully.");
+                if(item.getDescription().equalsIgnoreCase(description)){
+                    System.out.println("Description is already set to " + item.getDescription() + ". No changes were made.");
+                }else{
+                    System.out.println("\'" + item.getDescription() + "\' is updated to " + description + "               successfully.");
                 item.setDescription(description);
+                }
+
                 break;
 
             case 3:
@@ -162,8 +171,13 @@ public class Main {
                     "Enter New Location (1-5): ", 5
                 );
 
-                System.out.println("\'" + item.getLocation() + "\' is updated to " + location + "               successfully.");
+                if(item.getLocation() == location){
+                    System.out.println("Location is already set to " + item.getLocation() + ". No changes were made.");
+                }else{
+                    System.out.println("\'" + item.getLocation() + "\' is updated to " + location + "               successfully.");
                 item.setLocation(location);
+                }
+
                 break; 
     }
 }
