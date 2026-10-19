@@ -14,7 +14,7 @@ public class Main {
 
         while (!isExit) {
             Display.headerTitle("Main Menu");
-            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Change Item Status", "Exit");                
+            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Exit");                
             int menu = Validations.intValidation("Enter Menu Choice: ", 6);
 
             switch (menu) {
@@ -26,7 +26,7 @@ public class Main {
 
                 case 4 -> editItemRecord();
 
-                case 5 -> changeItemStatus();
+                case 5 -> markAsClaimed();
                 case 6 -> isExit = true;
             }
         }
@@ -71,6 +71,7 @@ public class Main {
     }
 
     private static void searchItem(){
+        Display.headerTitle("Search an Item");
         ArrayList<Item> items = lostAndFound.getItems();
         if(items.isEmpty()){
             System.out.println("No items have been reported yet.");
@@ -86,8 +87,14 @@ public class Main {
             return;
         }
 
-        Display.headerTitle("Item Details");
-        Display.displayItem(foundItem);
+        Display.subHeaderTitle("Item Details");
+        Display.displayAnItem(new String[][] {
+            {"Item ID", foundItem.getItemID()},
+            {"Item Name", foundItem.getItemName()},
+            {"Item Description", foundItem.getDescription()},
+            {"Item Location", String.valueOf(foundItem.getLocation())},
+            {"Date Reported", foundItem.getDateReported()}
+        });
     }
 
     private static void editItemRecord() {
@@ -148,47 +155,54 @@ public class Main {
     }
 }
 
-    private static void changeItemStatus() {
-    ArrayList<Item> items = lostAndFound.getItems();
+    private static void markAsClaimed() {
+        Display.headerTitle("Mark as Claimed");
+        ArrayList<Item> items = lostAndFound.getItems();
 
-    if (items.isEmpty()) {
-        System.out.println("No items have been reported yet.");
-        return;
-    }
+        if (items.isEmpty()) {
+            System.out.println("No items have been reported yet.");
+            return;
+        }
 
-    String itemID = Validations.itemIDSearchValidation(
-        "Enter Item ID: "
-    );
+        String itemID = Validations.itemIDSearchValidation(
+            "Enter Item ID: "
+        );
 
-    Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.searchItem(itemID);
 
-    if (item == null) {
-        System.out.println("Item " + itemID + " not found.");
-        return;
-    }
+        if (item == null) {
+            System.out.println("Item " + itemID + " not found.");
+            return;
+        }
 
-    Display.headerTitle("Change Item Status");
-    System.out.println("Item Name: " + item.getItemName());
-    System.out.println("Current Status: " + item.getStatus());
+        System.out.println("Item found!");
 
-    Display.subHeaderTitle("Choose Status");
-    Display.displayMenu("Claimed", "Unclaimed");
+        if(item.getStatus().equalsIgnoreCase("Claimed")){
+            System.out.println("Status is already set to " + item.getStatus() + ". No changes were made.");
+            return;
+        }
 
-    int choice = Validations.intValidation(
-        "Select New Status: ", 2
-    );
+        Display.subHeaderTitle("Item Details");
+        Display.displayAnItem(new String[][] {
+            {"Item ID", item.getItemID()},
+            {"Item Name", item.getItemName()},
+            {"Item Description", item.getDescription()},
+            {"Item Location", String.valueOf(item.getLocation())},
+            {"Date Reported", item.getDateReported()}
+        });
 
-    String status = (choice == 1) ? "Claimed" : "Unclaimed";
+        char choice = Validations.charValidation("Do you want to mark this item as claimed? (y/n): ");
 
-    if(item.getStatus().equalsIgnoreCase(status)){
-        System.out.println("Status is already set to " + item.getStatus() + ". No changes were made.");
-        return;
-    }
+        String status = (choice == 'y') ? "Claimed" : "Unclaimed";
 
-    item.setStatus(status);
+        if(status.equalsIgnoreCase("Unclaimed")){
+            System.out.println("Status is still unclaimed. No changes were made.");
+            return;
+        }
 
-    System.out.println("Item status updated successfully.");
-    Display.displayItem(item);
+        item.setStatus(status);
+
+        System.out.println("Item claimed successfully.");
 }
 
 

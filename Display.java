@@ -71,13 +71,12 @@ public class Display {
     System.out.println(lightLine);
   }
 
-  public static void displayAnItem(String[][] itemDetails, String title){
+  public static void displayAnItem(String[][] itemDetails){
     int labelWidth = 0;
     for (String[] row : itemDetails) {
       labelWidth = Math.max(labelWidth, row[0].length());
     }
 
-    subHeaderTitle(title);
     for (String[] row : itemDetails) {
       System.out.printf(" %-" + labelWidth + "s : %s%n", row[0], row[1]);
     }
