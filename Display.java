@@ -5,7 +5,7 @@ public class Display {
   public static void displayMenu(String ... choices){
     String lightLine = "-".repeat(MENU_WIDTH);
     for (int i = 0; i < choices.length; i++) {
-        System.out.printf("  [%d] %s%n", i + 1, choices[i]);
+        System.out.printf("\t[%d] %s%n", i + 1, choices[i]);
     }
 
     System.out.println(lightLine);
@@ -55,20 +55,15 @@ public class Display {
     System.out.println(" Total items: " + items.size());
   }
 
-  public static void displayItem(Item item){
-    String format = " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n";
-    String lightLine = "-".repeat(MENU_WIDTH);
+  public static void displayAnItem(String[][] itemDetails){
+    int labelWidth = 0;
+    for (String[] row : itemDetails) {
+      labelWidth = Math.max(labelWidth, row[0].length());
+    }
 
-    System.out.printf(format, "ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION", "STATUS");
-    System.out.println(lightLine);
-    System.out.printf(format,
-          item.getItemID(),
-          fit(item.getItemName(), 22),
-          fit(item.getDescription(), 40),
-          item.getDateReported(),
-          item.getLocation(),
-          item.getStatus());
-    System.out.println(lightLine);
+    for (String[] row : itemDetails) {
+      System.out.printf("\t%-" + labelWidth + "s : %s%n", row[0], row[1]);
+    }
   }
 
   private static String fit(String text, int width){

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class LostAndFound {
@@ -106,29 +104,6 @@ public class LostAndFound {
         }
 
         return false;
-    }
-
-    public String generateID() {
-        Random random = new Random();
-        String itemID;
-        int attempts = 0;
-        boolean exists = true;
-
-        while (exists && attempts < 10000) {
-            int number = random.nextInt(10000);
-
-            itemID = LocalDate.now().getYear()
-                    + String.format("%04d", number);
-
-            exists = idExists(itemID);
-            attempts++;
-
-            if (!exists) {
-                return itemID;
-            }
-        }
-
-        return "";
     }
 
     public void addItem(Item item) {
