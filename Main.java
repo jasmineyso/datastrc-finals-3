@@ -47,8 +47,15 @@ public class Main {
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
-        Display.displayItems(item);
         System.out.println("Item reported successfully.");
+        Display.subHeaderTitle("Item Details");
+        Display.displayAnItem(new String[][] {
+            {"Item ID", item.getItemID()},
+            {"Item Name", item.getItemName()},
+            {"Item Description", item.getDescription()},
+            {"Item Location", String.valueOf(item.getLocation())},
+            {"Date Reported", item.getDateReported()}
+        });
     }
 
     private static void displayItemsMain(){
@@ -117,6 +124,11 @@ public class Main {
             return;
         }
 
+        if(item.getStatus().equalsIgnoreCase("Claimed")){
+            System.out.println("Item " + itemID + " is already claimed. You cannot change its record.");
+            return;
+        }
+
         Display.subHeaderTitle("Item Details");
         Display.displayAnItem(new String[][] {
             {"Item ID", item.getItemID()},
@@ -145,9 +157,9 @@ public class Main {
                 );
 
                 if(item.getItemName().equalsIgnoreCase(name)){
-                    System.out.println("Name is already set to " + item.getItemName() + ". No changes were made.");
+                    System.out.println("Name is already set to \'" + item.getItemName() + "\'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getItemName() + "\' is updated to " + name + "               successfully.");
+                    System.out.println("\'" + item.getItemName() + "\' is updated to \'" + name + "\' successfully.");
                 item.setItemName(name);
                 }
                 break;
@@ -158,9 +170,9 @@ public class Main {
                 );
 
                 if(item.getDescription().equalsIgnoreCase(description)){
-                    System.out.println("Description is already set to " + item.getDescription() + ". No changes were made.");
+                    System.out.println("Description is already set to \'" + item.getDescription() + "\'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getDescription() + "\' is updated to " + description + "               successfully.");
+                    System.out.println("\'" + item.getDescription() + "\' is updated to \'" + description + "\' successfully.");
                 item.setDescription(description);
                 }
 
@@ -172,10 +184,10 @@ public class Main {
                 );
 
                 if(item.getLocation() == location){
-                    System.out.println("Location is already set to " + item.getLocation() + ". No changes were made.");
+                    System.out.println("Location is already set to \'" + item.getLocation() + "\'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getLocation() + "\' is updated to " + location + "               successfully.");
-                item.setLocation(location);
+                    System.out.println("\'" + item.getLocation() + "\' is updated to \'" + location + "\' successfully.");
+                    item.setLocation(location);
                 }
 
                 break; 
@@ -202,12 +214,12 @@ public class Main {
             return;
         }
 
-        System.out.println("Item found!");
-
         if(item.getStatus().equalsIgnoreCase("Claimed")){
             System.out.println("Status is already set to " + item.getStatus() + ". No changes were made.");
             return;
         }
+
+        System.out.println("Item found!");
 
         Display.subHeaderTitle("Item Details");
         Display.displayAnItem(new String[][] {
@@ -218,7 +230,7 @@ public class Main {
             {"Date Reported", item.getDateReported()}
         });
 
-        char choice = Validations.charValidation("Do you want to mark this item as claimed? (y/n): ");
+        char choice = Validations.charValidation("\nDo you want to mark this item as claimed? (y/n): ");
 
         String status = (choice == 'y') ? "Claimed" : "Unclaimed";
 
@@ -229,7 +241,7 @@ public class Main {
 
         item.setStatus(status);
 
-        System.out.println("Item claimed successfully.");
+        System.out.println("\nItem claimed successfully.");
 }
 
 
