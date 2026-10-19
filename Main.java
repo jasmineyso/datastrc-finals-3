@@ -97,61 +97,74 @@ public class Main {
         });
     }
 
-    private static void editItemRecord() {
-    ArrayList<Item> items = lostAndFound.getItems();
+    private static void editItemRecord(){
+        Display.headerTitle("Edit Item Record");
+        ArrayList<Item> items = lostAndFound.getItems();
 
-    if (items.isEmpty()) {
-        System.out.println("No items have been reported yet.");
-        return;
-    }
+        if (items.isEmpty()) {
+            System.out.println("No items have been reported yet.");
+            return;
+        }
 
-    String itemID = Validations.itemIDSearchValidation(
-        "Enter Item ID to Edit: "
-    );
+        String itemID = Validations.itemIDSearchValidation(
+            "Enter Item ID to Edit: "
+        );
 
-    Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.searchItem(itemID);
 
-    if (item == null) {
-        System.out.println("Item " + itemID + " not found.");
-        return;
-    }
+        if (item == null) {
+            System.out.println("Item " + itemID + " not found.");
+            return;
+        }
 
-    Display.headerTitle("Edit Item Record");
-    Display.displayMenu(
-        "Edit Item Name",
-        "Edit Description",
-        "Edit Location",
-        "Return"
-    );
+        Display.subHeaderTitle("Item Details");
+        Display.displayAnItem(new String[][] {
+            {"Item ID", item.getItemID()},
+            {"Item Name", item.getItemName()},
+            {"Item Description", item.getDescription()},
+            {"Item Location", String.valueOf(item.getLocation())},
+            {"Date Reported", item.getDateReported()}
+        });
 
-    int choice = Validations.intValidation(
-        "Enter Menu Choice: ", 4
-    );
+        Display.headerTitle("Edit Item Record");
+        Display.displayMenu(
+            "Edit Item Name",
+            "Edit Description",
+            "Edit Location",
+            "Return"
+        );
 
-    switch (choice) {
-        case 1:
-            String name = Validations.stringValidation(
-                "Enter New Item Name: "
-            );
-            item.setItemName(name);
-            System.out.println("Item name updated successfully.");
-            break;
+        int choice = Validations.intValidation(
+            "Enter Menu Choice: ", 4
+        );
 
-        case 2:
-            String description = Validations.stringValidation(
-                "Enter New Description: "
-            );
-            item.setDescription(description);
-            System.out.println("Description updated successfully.");
-            break;
+        switch (choice) {
+            case 1:
+                String name = Validations.stringValidation(
+                    "Enter New Item Name: "
+                );
 
-        case 3:
-            int location = Validations.intValidation(
-                "Enter New Location (1-5): ", 5
-            );
-            item.setLocation(location);
-            System.out.println("Location updated successfully.");
-            break; 
+                System.out.println("\'" + item.getItemName() + "\' is updated to " + name + "               successfully.");
+                item.setItemName(name);
+                break;
+
+            case 2:
+                String description = Validations.stringValidation(
+                    "Enter New Description: "
+                );
+
+                System.out.println("\'" + item.getDescription() + "\' is updated to " + description + "               successfully.");
+                item.setDescription(description);
+                break;
+
+            case 3:
+                int location = Validations.intValidation(
+                    "Enter New Location (1-5): ", 5
+                );
+
+                System.out.println("\'" + item.getLocation() + "\' is updated to " + location + "               successfully.");
+                item.setLocation(location);
+                break; 
     }
 }
 
