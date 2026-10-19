@@ -13,7 +13,7 @@ public class Main {
         boolean isExit = false;
 
         while (!isExit) {
-            Display.headerTitle("Main Menu");
+            Display.headerTitle("Main Menu 1 ");
             Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Exit");                
             int menu = Validations.intValidation("Enter Menu Choice: ", 6);
 
