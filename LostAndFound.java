@@ -35,7 +35,6 @@ public class LostAndFound {
         itemRecord[ITEM_NAME] = item.getItemName();
         itemRecord[ITEM_DESCRIPTION] = item.getDescription();
         itemRecord[ITEM_DATE_REPORTED] = item.getDateReported();
-        itemRecord[ITEM_STATUS] = item.getStatus();
         itemRecord[ITEM_LOCATION] = String.valueOf(item.getLocation());
 
         return String.join("|", itemRecord);
@@ -65,8 +64,6 @@ public class LostAndFound {
                             data[ITEM_DATE_REPORTED].trim(),
                             Integer.parseInt(data[ITEM_LOCATION].trim())
                         );
-
-                        item.setStatus(data[ITEM_STATUS].trim());
 
                         items.add(item);
 
