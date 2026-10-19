@@ -12,7 +12,7 @@ public class LostAndFound {
     private ArrayList<Item> items = new ArrayList<>();
     private ActivityHistory activityHistory = new ActivityHistory();
 
-    public static final int ITEM_ID = 0, ITEM_NAME = 1, ITEM_DESCRIPTION = 2, ITEM_DATE_REPORTED = 3, ITEM_STATUS = 4, ITEM_LOCATION = 5, ITEM_FIELD_COUNT = 6;
+    public static final int ITEM_ID = 0, ITEM_NAME = 1, ITEM_DESCRIPTION = 2, ITEM_DATE_REPORTED = 3, ITEM_LOCATION = 4, ITEM_FIELD_COUNT = 5;
 
     public LostAndFound() {
         initializeFile();
