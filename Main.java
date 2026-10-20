@@ -329,32 +329,6 @@ public class Main {
         ActivityHistory activity = new ActivityHistory();
         activity.displayActivities();
 
-        /*for (Item item : items) {
-            if (claimedIDs.contains(item.getItemID())) {
-                item.setStatus("Claimed");
-            }
-        }
-
-        Display.headerTitle("Activity History");
-        Display.itemsTable(claimedFirst(items));*/
-    }
-
-    private static ArrayList<Item> claimedFirst(ArrayList<Item> items) {
-        ArrayList<Item> ordered = new ArrayList<>();
-
-        for (Item item : items) {
-            if (item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        for (Item item : items) {
-            if (!item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        return ordered;
     }
 
     private static void logActivity(String message) {
