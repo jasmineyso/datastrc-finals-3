@@ -185,6 +185,12 @@ public class Validations {
         if(parsedDate.isAfter(LocalDate.now())){
             System.out.println("Invalid input. Date reported cannot be in the future.");
             continue;
+<<<<<<< HEAD
+=======
+        }else if(parsedDate.isBefore(LocalDate.now())){
+          System.out.println("Invalid input. Date reported cannot be in the past.");
+            continue;
+>>>>>>> origin/master
         }else{
             date = txt;
             isValidDate = true;
