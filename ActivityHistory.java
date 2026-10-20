@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ActivityHistory {
@@ -51,11 +52,30 @@ public class ActivityHistory {
             return;
         }
 
-        System.out.println("\n===== RECENT ACTIVITIES =====");
+        Display.subHeaderTitle("Recent Activities");
 
         for (int i = activities.size() - 1; i >= 0; i--) {
             System.out.println(activities.get(i));
         }
+    }
+
+    public ArrayList<String> getClaimedItemIDs() {
+        loadActivities();
+
+        ArrayList<String> claimedIDs = new ArrayList<>();
+
+        for (String activity : activities) {
+            if (activity.matches("^(\\[.*?\\] )?Item ID: ITM-\\d{4} \\| Unclaimed -> Claimed$")) {
+                int start = activity.indexOf("ITM-");
+                String itemID = activity.substring(start, start + 8);
+
+                if (!claimedIDs.contains(itemID)) {
+                    claimedIDs.add(itemID);
+                }
+            }
+        }
+
+        return claimedIDs;
     }
 
     private void loadActivities() {
