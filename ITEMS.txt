@@ -7,4 +7,6 @@ ITM-0006|Bracelet|Pink|2026-10-19|2
 ITM-0007|headphones|blue|2026-10-19|3
 ITM-0008|tumbler|pink and green|2026-10-19|2
 ITM-0009|Laptop|Black|2026-10-19|3
-ITM-0010|Earphones|Black type c|2026-10-19|1
+ITM-0010|Earphones|Black type c|2026-10-19|1ITM-0011|jhsjad|jsis|2026-10-20|0
+ITM-0012|sjsjjd|||0
+ITM-0013|earphones|white type c|2026-10-20|2

@@ -9,7 +9,8 @@ import java.util.Stack;
 
 public class ActivityHistory {
     private static final String FILE_NAME = "ACTIVITY.txt";
-    private Stack<String> activities = new Stack<>();
+    public Stack<String> activities = new Stack<>();
+
     public ActivityHistory() {
         loadActivities();
     }

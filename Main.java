@@ -326,17 +326,17 @@ public class Main {
             return;
         }
 
-        ArrayList<String> claimedIDs =
-            lostAndFound.getActivityHistory().getClaimedItemIDs();
+        ActivityHistory activity = new ActivityHistory();
+        activity.displayActivities();
 
-        for (Item item : items) {
+        /*for (Item item : items) {
             if (claimedIDs.contains(item.getItemID())) {
                 item.setStatus("Claimed");
             }
         }
 
         Display.headerTitle("Activity History");
-        Display.itemsTable(claimedFirst(items));
+        Display.itemsTable(claimedFirst(items));*/
     }
 
     private static ArrayList<Item> claimedFirst(ArrayList<Item> items) {
