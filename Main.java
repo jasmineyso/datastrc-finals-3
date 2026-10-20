@@ -14,8 +14,8 @@ public class Main {
 
         while (!isExit) {
             Display.headerTitle("Main Menu");
-            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Exit");                
-            int menu = Validations.intValidation("Enter Menu Choice: ", 6);
+            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed","Activity History", "Exit");                
+            int menu = Validations.intValidation("Enter Menu Choice: ", 7);
 
             switch (menu) {
                 case 1 -> reportItem();
@@ -27,7 +27,10 @@ public class Main {
                 case 4 -> editItemRecord();
 
                 case 5 -> markAsClaimed();
-                case 6 -> isExit = true;
+
+                case 6 -> activityHistory();
+                
+                case 7 -> isExit = true;
             }
         }
         System.out.println("Exiting the program. Goodbye!");
@@ -300,5 +303,16 @@ public class Main {
     Display.subHeaderTitle("Found Items");
     Display.itemsTable(foundItems);
 }
+
+    private static void activityHistory() {
+        ArrayList<Item> items = lostAndFound.getItems();
+        if (items.isEmpty()) {
+            System.out.println("No activity history is available yet.");
+            return;
+        }
+
+        Display.headerTitle("Activity History");
+        Display.itemsTable(items);
+    }
 
 }
