@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,8 +16,8 @@ public class Main {
 
         while (!isExit) {
             Display.headerTitle("Main Menu");
-            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Exit");                
-            int menu = Validations.intValidation("Enter Menu Choice: ", 6);
+            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Activity History", "Exit");                
+            int menu = Validations.intValidation("Enter Menu Choice: ", 7);
 
             switch (menu) {
                 case 1 -> reportItem();
@@ -27,7 +29,8 @@ public class Main {
                 case 4 -> editItemRecord();
 
                 case 5 -> markAsClaimed();
-                case 6 -> isExit = true;
+                case 6 -> activityHistoryMenu();
+                case 7 -> isExit = true;
             }
         }
         System.out.println("Exiting the program. Goodbye!");
@@ -47,6 +50,7 @@ public class Main {
 
         Item item = new Item(itemID, name, description, date, location);
         lostAndFound.addItem(item);
+        logActivity("Reported " + item.getItemID() + " | " + item.getItemName());
         System.out.println("Item reported successfully.");
         Display.subHeaderTitle("Item Details");
         Display.displayAnItem(new String[][] {
@@ -157,10 +161,12 @@ public class Main {
                 );
 
                 if(item.getItemName().equalsIgnoreCase(name)){
-                    System.out.println("Name is already set to \'" + item.getItemName() + "\'. No changes were made.");
+                    System.out.println("Name is already set to '" + item.getItemName() + "'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getItemName() + "\' is updated to \'" + name + "\' successfully.");
-                item.setItemName(name);
+                    String oldName = item.getItemName();
+                    item.setItemName(name);
+                    System.out.println("'" + oldName + "' is updated to '" + name + "' successfully.");
+                    logActivity("Edited " + item.getItemID() + " | Name: " + oldName + " -> " + name);
                 }
                 break;
 
@@ -170,12 +176,13 @@ public class Main {
                 );
 
                 if(item.getDescription().equalsIgnoreCase(description)){
-                    System.out.println("Description is already set to \'" + item.getDescription() + "\'. No changes were made.");
+                    System.out.println("Description is already set to '" + item.getDescription() + "'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getDescription() + "\' is updated to \'" + description + "\' successfully.");
-                item.setDescription(description);
+                    String oldDescription = item.getDescription();
+                    item.setDescription(description);
+                    System.out.println("'" + oldDescription + "' is updated to '" + description + "' successfully.");
+                    logActivity("Edited " + item.getItemID() + " | Description: " + oldDescription + " -> " + description);
                 }
-
                 break;
 
             case 3:
@@ -184,15 +191,16 @@ public class Main {
                 );
 
                 if(item.getLocation() == location){
-                    System.out.println("Location is already set to \'" + item.getLocation() + "\'. No changes were made.");
+                    System.out.println("Location is already set to '" + item.getLocation() + "'. No changes were made.");
                 }else{
-                    System.out.println("\'" + item.getLocation() + "\' is updated to \'" + location + "\' successfully.");
+                    int oldLocation = item.getLocation();
                     item.setLocation(location);
+                    System.out.println("'" + oldLocation + "' is updated to '" + location + "' successfully.");
+                    logActivity("Edited " + item.getItemID() + " | Location: " + oldLocation + " -> " + location);
                 }
-
-                break; 
+                break;
+        }
     }
-}
 
     private static void markAsClaimed() {
         Display.headerTitle("Mark as Claimed");
@@ -240,9 +248,58 @@ public class Main {
         }
 
         item.setStatus(status);
+        logActivity("Item ID: " + item.getItemID() + " | Unclaimed -> Claimed");
 
         System.out.println("\nItem claimed successfully.");
 }
+
+
+    // --------------- methods for activity history -----------------------
+
+    private static void activityHistoryMenu(){
+        ArrayList<Item> items = lostAndFound.getItems();
+
+        if(items.isEmpty()){
+            System.out.println("No items have been reported yet.");
+            return;
+        }
+
+        ArrayList<String> claimedIDs = lostAndFound.getActivityHistory().getClaimedItemIDs();
+
+        for(Item item : items){
+            if(claimedIDs.contains(item.getItemID())){
+                item.setStatus("Claimed");
+            }
+        }
+
+        Display.headerTitle("Activity History");
+        Display.itemsTable(claimedFirst(items));
+    }
+
+    private static ArrayList<Item> claimedFirst(ArrayList<Item> items){
+        ArrayList<Item> ordered = new ArrayList<>();
+
+        for(Item item : items){
+            if(item.getStatus().equalsIgnoreCase("Claimed")){
+                ordered.add(item);
+            }
+        }
+
+        for(Item item : items){
+            if(!item.getStatus().equalsIgnoreCase("Claimed")){
+                ordered.add(item);
+            }
+        }
+
+        return ordered;
+    }
+
+    private static void logActivity(String message){
+        String time = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        lostAndFound.getActivityHistory().addActivity("[" + time + "] " + message);
+    }
 
 
     // --------------- methods for display items -----------------------
