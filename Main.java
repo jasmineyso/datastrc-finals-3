@@ -15,22 +15,27 @@ public class Main {
         boolean isExit = false;
 
         while (!isExit) {
-            Display.headerTitle("Main Menu");
-            Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Activity History", "Exit");                
-            int menu = Validations.intValidation("Enter Menu Choice: ", 7);
+            try {
+                Display.headerTitle("Main Menu");
+                Display.displayMenu("Report an Item", "Display Items", "Search an Item", "Edit Item Record", "Mark as Claimed", "Activity History", "Exit");
+                System.out.println("Note: Press 0 to go back to Main Menu anytime");
+                int menu = Validations.intValidation("Enter Menu Choice: ", 7);
 
-            switch (menu) {
-                case 1 -> reportItem();
+                switch (menu) {
+                    case 1 -> reportItem();
 
-                case 2 -> displayItemsMain();
+                    case 2 -> displayItemsMain();
 
-                case 3 -> searchItem();
+                    case 3 -> searchItem();
 
-                case 4 -> editItemRecord();
+                    case 4 -> editItemRecord();
 
-                case 5 -> markAsClaimed();
-                case 6 -> activityHistoryMenu();
-                case 7 -> isExit = true;
+                    case 5 -> markAsClaimed();
+                    case 6 -> activityHistoryMenu();
+                    case 7 -> isExit = true;
+                }
+            } catch (BackToMenuException e) {
+                System.out.println("Returning to Main Menu.");
             }
         }
         System.out.println("Exiting the program. Goodbye!");

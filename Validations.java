@@ -13,6 +13,10 @@ public class Validations {
       System.out.print(prompt);
       String number = input.nextLine();
 
+      if(number.equals("0")){
+        throw new BackToMenuException();
+      }
+
       if(number.length() > 1 && !(Character.isLetterOrDigit(number.charAt(0)))){
         System.out.println("Invalid input. Number cannot start with a symbol or space.");
         continue;
@@ -46,6 +50,10 @@ public class Validations {
           System.out.print(prompt);
           String txt = input.nextLine();
 
+          if(txt.equals("0")){
+            throw new BackToMenuException();
+          }
+
           if(txt.isEmpty()){
             System.out.println("Invalid input. You cannot leave this empty.");
             continue;
@@ -78,6 +86,10 @@ public class Validations {
           System.out.print(prompt);
           String txt = input.nextLine().trim().replaceAll("\\s+", " ");
 
+          if(txt.equals("0")){
+              throw new BackToMenuException();
+          }
+
           if(txt.isEmpty()){
               System.out.println("Invalid input. You cannot leave this empty.");
               continue;
@@ -98,6 +110,10 @@ public class Validations {
     while(!isValidID){
         System.out.print(prompt);
         String txt = input.nextLine().trim().toUpperCase();
+
+        if(txt.equals("0")){
+            throw new BackToMenuException();
+        }
 
         if(txt.isEmpty()){
             System.out.println("Invalid input. You cannot leave this empty.");
@@ -143,6 +159,10 @@ public class Validations {
         System.out.print(prompt);
         String txt = input.nextLine().trim().toUpperCase();
 
+        if(txt.equals("0")){
+            throw new BackToMenuException();
+        }
+
         if(txt.isEmpty()){
             System.out.println("Invalid input. You cannot leave this empty.");
             continue;
@@ -168,6 +188,10 @@ public class Validations {
     while(!isValidDate){
         System.out.print(prompt);
         String txt = input.nextLine().trim();
+
+        if(txt.equals("0")){
+            throw new BackToMenuException();
+        }
 
         if(txt.isEmpty()){
             System.out.println("Invalid input. You cannot leave this empty.");
