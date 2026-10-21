@@ -17,27 +17,32 @@ public class Main {
         boolean isExit = false;
 
         while (!isExit) {
-            Display.headerTitle("Main Menu");
-            Display.displayMenu(
-                "Report an Item",
-                "Display Items",
-                "Search an Item",
-                "Edit Item Record",
-                "Mark as Claimed",
-                "Activity History",
-                "Exit"
-            );
+            try {
+                Display.headerTitle("Main Menu");
+                Display.displayMenu(
+                    "Report an Item",
+                    "Display Items",
+                    "Search an Item",
+                    "Edit Item Record",
+                    "Mark as Claimed",
+                    "Activity History",
+                    "Exit"
+                );
+                System.out.println("Note: Press 0 to go back to Main Menu anytime");
 
-            int menu = Validations.intValidation("Enter Menu Choice: ", 7);
+                int menu = Validations.intValidation("Enter Menu Choice: ", 7);
 
-            switch (menu) {
-                case 1 -> reportItem();
-                case 2 -> displayItemsMain();
-                case 3 -> searchItem();
-                case 4 -> editItemRecord();
-                case 5 -> markAsClaimed();
-                case 6 -> activityHistoryMenu();
-                case 7 -> isExit = true;
+                switch (menu) {
+                    case 1 -> reportItem();
+                    case 2 -> displayItemsMain();
+                    case 3 -> searchItem();
+                    case 4 -> editItemRecord();
+                    case 5 -> markAsClaimed();
+                    case 6 -> activityHistoryMenu();
+                    case 7 -> isExit = true;
+                }
+            } catch (BackToMenuException e) {
+                System.out.println("Returning to Main Menu.");
             }
         }
 
@@ -319,42 +324,60 @@ public class Main {
     }
 
     private static void activityHistoryMenu() {
-        ArrayList<Item> items = lostAndFound.getItems();
+        ActivityHistory history = lostAndFound.getActivityHistory();
 
-        if (items.isEmpty()) {
-            System.out.println("No items have been reported yet.");
+        if (history.isEmpty()) {
+            System.out.println("No activities have been recorded yet.");
             return;
         }
 
-        ActivityHistory activity = new ActivityHistory();
-        activity.displayActivities();
+        Display.headerTitle("Activity History");
+        Display.displayMenu(
+            "Display All Activities",
+            "Display Recent Activity"
+        );
 
-        /*for (Item item : items) {
+        int menu = Validations.intValidation("Enter Menu Choice: ", 2);
+
+        ArrayList<String> itemIDs = history.getItemIDsNewestFirst();
+
+        switch (menu) {
+            case 1 -> {
+                Display.subHeaderTitle("All Activities");
+                showActivityTable(itemIDs);
+            }
+            case 2 -> {
+                Display.subHeaderTitle("Recent Activity");
+
+                ArrayList<String> recent = new ArrayList<>();
+                if (!itemIDs.isEmpty()) {
+                    recent.add(itemIDs.get(0));
+                }
+                showActivityTable(recent);
+            }
+        }
+    }
+
+    private static void showActivityTable(ArrayList<String> itemIDs) {
+        ArrayList<String> claimedIDs =
+            lostAndFound.getActivityHistory().getClaimedItemIDs();
+        ArrayList<Item> rows = new ArrayList<>();
+
+        for (String itemID : itemIDs) {
+            Item item = lostAndFound.findItemByID(itemID);
+
+            if (item == null) {
+                continue;
+            }
+
             if (claimedIDs.contains(item.getItemID())) {
                 item.setStatus("Claimed");
             }
+
+            rows.add(item);
         }
 
-        Display.headerTitle("Activity History");
-        Display.itemsTable(claimedFirst(items));*/
-    }
-
-    private static ArrayList<Item> claimedFirst(ArrayList<Item> items) {
-        ArrayList<Item> ordered = new ArrayList<>();
-
-        for (Item item : items) {
-            if (item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        for (Item item : items) {
-            if (!item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        return ordered;
+        Display.itemsTable(rows, "Total activities");
     }
 
     private static void logActivity(String message) {
