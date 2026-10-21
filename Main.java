@@ -331,12 +331,6 @@ public class Main {
             return;
         }
 
-<<<<<<< HEAD
-        ActivityHistory activity = new ActivityHistory();
-        activity.displayActivities();
-
-        /*for (Item item : items) {
-=======
         Display.headerTitle("Activity History");
         Display.displayMenu(
             "Display All Activities",
@@ -376,7 +370,6 @@ public class Main {
                 continue;
             }
 
->>>>>>> origin/master
             if (claimedIDs.contains(item.getItemID())) {
                 item.setStatus("Claimed");
             }
@@ -384,30 +377,7 @@ public class Main {
             rows.add(item);
         }
 
-<<<<<<< HEAD
-        Display.headerTitle("Activity History");
-        Display.itemsTable(claimedFirst(items));*/
-    }
-
-    private static ArrayList<Item> claimedFirst(ArrayList<Item> items) {
-        ArrayList<Item> ordered = new ArrayList<>();
-
-        for (Item item : items) {
-            if (item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        for (Item item : items) {
-            if (!item.getStatus().equalsIgnoreCase("Claimed")) {
-                ordered.add(item);
-            }
-        }
-
-        return ordered;
-=======
         Display.itemsTable(rows, "Total activities");
->>>>>>> origin/master
     }
 
     private static void logActivity(String message) {
