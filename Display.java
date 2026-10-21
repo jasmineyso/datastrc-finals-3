@@ -35,6 +35,10 @@ public class Display {
 
 
   public static void itemsTable(ArrayList<Item> items){
+    itemsTable(items, "Total items");
+  }
+
+  public static void itemsTable(ArrayList<Item> items, String totalLabel){
     String format = " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n";
     String lightLine = "-".repeat(MENU_WIDTH);
 
@@ -52,7 +56,7 @@ public class Display {
     }
 
     System.out.println(lightLine);
-    System.out.println(" Total items: " + items.size());
+    System.out.println(" " + totalLabel + ": " + items.size());
   }
 
   public static void displayAnItem(String[][] itemDetails){

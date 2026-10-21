@@ -16,6 +16,7 @@ public class ActivityHistory {
     }
 
     public boolean isEmpty() {
+        loadActivities();
         return activities.isEmpty();
     }
 
@@ -29,6 +30,8 @@ public class ActivityHistory {
     }
 
     public String viewLatestActivity() {
+        loadActivities();
+
         if (activities.isEmpty()) {
             return null;
         }
@@ -47,17 +50,21 @@ public class ActivityHistory {
         return removed;
     }
 
-    public void displayActivities() {
-        if (activities.isEmpty()) {
-            System.out.println("No activities yet.");
-            return;
-        }
+    public ArrayList<String> getItemIDsNewestFirst() {
+        loadActivities();
 
-        Display.subHeaderTitle("Recent Activities");
+        ArrayList<String> itemIDs = new ArrayList<>();
 
         for (int i = activities.size() - 1; i >= 0; i--) {
-            System.out.println(activities.get(i));
+            String activity = activities.get(i);
+            int start = activity.indexOf("ITM-");
+
+            if (start >= 0 && activity.length() >= start + 8) {
+                itemIDs.add(activity.substring(start, start + 8));
+            }
         }
+
+        return itemIDs;
     }
 
     public ArrayList<String> getClaimedItemIDs() {
