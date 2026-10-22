@@ -62,6 +62,17 @@ public class Display {
     System.out.println(" " + totalLabel + ": " + items.size());
   }
 
+  public static void displayAnItem(String[][] itemDetails){
+    int labelWidth = 0;
+    for (String[] row : itemDetails) {
+      labelWidth = Math.max(labelWidth, row[0].length());
+    }
+
+    for (String[] row : itemDetails) {
+      System.out.printf("\t%-" + labelWidth + "s : %s%n", row[0], row[1]);
+    }
+  }
+
   private static String fit(String text, int width){
     if(text.length() <= width){
       return text;
