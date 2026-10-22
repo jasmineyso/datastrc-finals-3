@@ -391,7 +391,7 @@ public class Main {
 
     private static void displayAllItems(ArrayList<Item> items) {
         Display.subHeaderTitle("All Items");
-        Display.itemsTable(items, "Total items", false);
+        Display.itemsTable(items, "Total items", true);
     }
 
     private static void sortByDate() {

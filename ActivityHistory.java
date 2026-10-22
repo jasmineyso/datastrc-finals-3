@@ -39,17 +39,6 @@ public class ActivityHistory {
         return activities.peek();
     }
 
-    public String removeLatestActivity() {
-        if (activities.isEmpty()) {
-            return null;
-        }
-
-        String removed = activities.pop();
-        saveAllActivities();
-
-        return removed;
-    }
-
     public ArrayList<String> getItemIDsNewestFirst() {
         loadActivities();
 
@@ -120,20 +109,6 @@ public class ActivityHistory {
 
         } catch (IOException e) {
             System.out.println("Error saving activity!");
-        }
-    }
-
-    private void saveAllActivities() {
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME))) {
-
-            for (String activity : activities) {
-                writer.write(activity);
-                writer.newLine();
-            }
-
-        } catch (IOException e) {
-            System.out.println("Error saving activities!");
         }
     }
 }
