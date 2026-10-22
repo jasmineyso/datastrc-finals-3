@@ -28,7 +28,6 @@ public class Main {
                     "Activity History",
                     "Exit"
                 );
-                System.out.println("Note: Press 0 to go back to Main Menu anytime");
 
                 int menu = Validations.intValidation("Enter Menu Choice: ", 7);
 
@@ -80,6 +79,7 @@ public class Main {
     }
 
     private static void displayItemsMain() {
+        Display.headerTitle("Display Items");
         ArrayList<Item> items = lostAndFound.getItems();
 
         if (items.isEmpty()) {
@@ -87,7 +87,6 @@ public class Main {
             return;
         }
 
-        Display.headerTitle("Display Items:");
         Display.displayMenu(
             "All Items",
             "Sort by Date",
@@ -315,6 +314,7 @@ public class Main {
             return;
         }
 
+
         item.setStatus(status);
         logActivity(
             "Item ID: " + item.getItemID() + " | Unclaimed -> Claimed"
@@ -377,7 +377,7 @@ public class Main {
             rows.add(item);
         }
 
-        Display.itemsTable(rows, "Total activities");
+        Display.itemsTable(rows, "Total activities", true);
     }
 
     private static void logActivity(String message) {
@@ -391,7 +391,7 @@ public class Main {
 
     private static void displayAllItems(ArrayList<Item> items) {
         Display.subHeaderTitle("All Items");
-        Display.itemsTable(items);
+        Display.itemsTable(items, "Total items", false);
     }
 
     private static void sortByDate() {
@@ -403,7 +403,7 @@ public class Main {
         }
 
         Display.subHeaderTitle("Items Sorted by Date (Oldest to Newest)");
-        Display.itemsTable(sorted);
+        Display.itemsTable(sorted, "Total items", false);
     }
 
     private static void sortByItemLost() {
@@ -422,7 +422,7 @@ public class Main {
         }
 
         Display.subHeaderTitle("Lost Items");
-        Display.itemsTable(lostItems);
+        Display.itemsTable(lostItems, "Total items", false);
     }
 
     private static void sortByItemsFound() {
@@ -441,6 +441,6 @@ public class Main {
         }
 
         Display.subHeaderTitle("Found Items");
-        Display.itemsTable(foundItems);
+        Display.itemsTable(foundItems, "Total items", false);
     }
 }

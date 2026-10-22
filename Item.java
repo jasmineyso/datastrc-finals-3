@@ -3,7 +3,7 @@ public class Item {
   private String itemName;
   private String description;
   private String dateReported;
-  private String status;
+  private Status status;
   private int location;
 
   public Item(String itemID, String itemName, String description, String dateReported, int location){
@@ -11,7 +11,7 @@ public class Item {
     this.itemName = itemName;
     this.description = description;
     this.dateReported = dateReported;
-    this.status = "Unclaimed";
+    this.status = Status.UNCLAIMED;
     this.location = location;
   }
 
@@ -43,7 +43,7 @@ public class Item {
     }
 
     public String getStatus() {
-        return status;
+        return status.toString();
     }
 
     public int getLocation(){
@@ -58,8 +58,10 @@ public class Item {
         this.description = description;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status){
+      if(status != null){
+        this.status = Status.valueOf(status.toUpperCase());
+      }
     }
 
     public void setLocation(int location){
