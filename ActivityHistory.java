@@ -39,17 +39,6 @@ public class ActivityHistory {
         return activities.peek();
     }
 
-    public String removeLatestActivity() {
-        if (activities.isEmpty()) {
-            return null;
-        }
-
-        String removed = activities.pop();
-        saveAllActivities();
-
-        return removed;
-    }
-
     public ArrayList<String> getRecentActivities() {
         loadActivities();
 
