@@ -256,25 +256,4 @@ public class LostAndFound {
     public ActivityHistory getActivityHistory() {
         return activityHistory;
     }
-
-    public boolean sortItemsByStatus() {
-        if (items.isEmpty()) {
-            return false;
-        }
-
-        for (int i = 1; i < items.size(); i++) {
-            Item current = items.get(i);
-            int j = i - 1;
-
-            while (j >= 0 &&
-                    items.get(j).getStatus()
-                        .compareToIgnoreCase(current.getStatus()) > 0) {
-                items.set(j + 1, items.get(j));
-                j--;
-            }
-
-            items.set(j + 1, current);
-        }
-        return true;
-    }
 }

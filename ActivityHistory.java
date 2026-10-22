@@ -129,18 +129,4 @@ public class ActivityHistory {
             System.out.println("Error saving activity!");
         }
     }
-
-    private void saveAllActivities() {
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME))) {
-
-            for (String activity : activities) {
-                writer.write(activity);
-                writer.newLine();
-            }
-
-        } catch (IOException e) {
-            System.out.println("Error saving activities!");
-        }
-    }
 }
