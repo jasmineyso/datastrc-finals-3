@@ -4,25 +4,15 @@ public class Item {
   private String description;
   private String dateReported;
   private Status status;
-  private int location;
+  private int container;
 
-  public Item(String itemID, String itemName, String description, String dateReported, int location){
+  public Item(String itemID, String itemName, String description, String dateReported, int container){
     this.itemID = itemID;
     this.itemName = itemName;
     this.description = description;
     this.dateReported = dateReported;
     this.status = Status.UNCLAIMED;
-    this.location = location;
-  }
-
-  private String[] itemStatus = {"Claimed", "Unclaimed"};
-  public boolean validStatus(String status){
-    for(String s : itemStatus){
-      if(s.equalsIgnoreCase(status)){
-        return true;
-      }
-    }
-    return false;
+    this.container = container;
   }
 
 
@@ -46,8 +36,8 @@ public class Item {
         return status.toString();
     }
 
-    public int getLocation(){
-      return location;
+    public int getContainer(){
+      return container;
     }
 
     public void setItemName(String itemName) {
@@ -64,8 +54,8 @@ public class Item {
       }
     }
 
-    public void setLocation(int location){
-      this.location = location;
+    public void setContainer(int container){
+      this.container = container;
     }
 
 }

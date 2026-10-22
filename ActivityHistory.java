@@ -28,7 +28,7 @@ public class ActivityHistory {
         activities.push(activity);
         appendActivity(activity);
     }
-
+    
     public String viewLatestActivity() {
         loadActivities();
 
@@ -50,21 +50,28 @@ public class ActivityHistory {
         return removed;
     }
 
-    public ArrayList<String> getItemIDsNewestFirst() {
+    public ArrayList<String> getRecentActivities() {
         loadActivities();
 
-        ArrayList<String> itemIDs = new ArrayList<>();
+        ArrayList<String> recentActivities = new ArrayList<>();
 
         for (int i = activities.size() - 1; i >= 0; i--) {
-            String activity = activities.get(i);
-            int start = activity.indexOf("ITM-");
-
-            if (start >= 0 && activity.length() >= start + 8) {
-                itemIDs.add(activity.substring(start, start + 8));
-            }
+            recentActivities.add(activities.get(i));
         }
 
-        return itemIDs;
+        return recentActivities;
+    }
+
+    public ArrayList<String> getActivitiesNewestFirst() {
+        loadActivities();
+
+        ArrayList<String> recentActivities = new ArrayList<>();
+
+        for (int i = activities.size() - 1; i >= 0; i--) {
+            recentActivities.add(activities.get(i));
+        }
+
+        return recentActivities;
     }
 
     public ArrayList<String> getClaimedItemIDs() {

@@ -8,6 +8,7 @@ public class Main {
     private static LostAndFound lostAndFound;
     public Scanner sc = new Scanner(System.in);
 
+
     public static void main(String[] args) {
         FileInitializer.initializeFiles();
         lostAndFound = new LostAndFound();
@@ -57,14 +58,14 @@ public class Main {
         String name = Validations.stringValidation("Item Name: ");
         String description = Validations.stringValidation("Item Description: ");
         String date = LocalDate.now().toString();
-        int location = Validations.intValidation("Location (1-5): ", 5);
+        int container = Validations.intValidation("Container (1-5): ", 5);
 
         String itemID = ItemIDGenerator.nextID(items);
 
-        Item item = new Item(itemID, name, description, date, location);
+        Item item = new Item(itemID, name, description, date, container);
         lostAndFound.addItem(item);
 
-        logActivity("Reported " + item.getItemID() + " | " + item.getItemName());
+        logActivity("Item ID: " + item.getItemID() + " | " + item.getItemName());
 
         System.out.println("Item reported successfully.");
 
@@ -73,7 +74,7 @@ public class Main {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
-            {"Item Location", String.valueOf(item.getLocation())},
+            {"Item Container", String.valueOf(item.getContainer())},
             {"Date Reported", item.getDateReported()}
         });
     }
@@ -131,9 +132,10 @@ public class Main {
             {"Item ID", foundItem.getItemID()},
             {"Item Name", foundItem.getItemName()},
             {"Item Description", foundItem.getDescription()},
-            {"Item Location", String.valueOf(foundItem.getLocation())},
+            {"Item Container", String.valueOf(foundItem.getContainer())},
             {"Date Reported", foundItem.getDateReported()}
         });
+        logActivity("User Accessed: Search Item");
     }
 
     private static void editItemRecord() {
@@ -170,7 +172,7 @@ public class Main {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
-            {"Item Location", String.valueOf(item.getLocation())},
+            {"Item Container", String.valueOf(item.getContainer())},
             {"Date Reported", item.getDateReported()}
         });
 
@@ -178,7 +180,7 @@ public class Main {
         Display.displayMenu(
             "Edit Item Name",
             "Edit Description",
-            "Edit Location",
+            "Edit Container",
             "Return"
         );
 
@@ -236,28 +238,28 @@ public class Main {
                 break;
 
             case 3:
-                int location = Validations.intValidation(
-                    "Enter New Location (1-5): ", 5
+                int container = Validations.intValidation(
+                    "Enter New Container (1-5): ", 5
                 );
 
-                if (item.getLocation() == location) {
+                if (item.getContainer() == container) {
                     System.out.println(
-                        "Location is already set to '" + item.getLocation()
+                        "Container is already set to '" + item.getContainer()
                         + "'. No changes were made."
                     );
                 } else {
-                    int oldLocation = item.getLocation();
-                    item.setLocation(location);
+                    int oldContainer = item.getContainer();
+                    item.setContainer(container);
 
                     System.out.println(
-                        "'" + oldLocation + "' is updated to '"
-                        + location + "' successfully."
+                        "'" + oldContainer + "' is updated to '"
+                        + container + "' successfully."
                     );
 
                     logActivity(
                         "Edited " + item.getItemID()
-                        + " | Location: " + oldLocation
-                        + " -> " + location
+                        + " | Container: " + oldContainer
+                        + " -> " + container
                     );
                 }
                 break;
@@ -297,7 +299,7 @@ public class Main {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
-            {"Item Location", String.valueOf(item.getLocation())},
+            {"Item Container", String.valueOf(item.getContainer())},
             {"Date Reported", item.getDateReported()}
         });
 
@@ -321,10 +323,12 @@ public class Main {
         );
 
         System.out.println("\nItem claimed successfully.");
+        logActivity("User Accessed: Claimed an Item");
     }
 
+
     private static void activityHistoryMenu() {
-        ActivityHistory history = lostAndFound.getActivityHistory();
+    ActivityHistory history = lostAndFound.getActivityHistory();
 
         if (history.isEmpty()) {
             System.out.println("No activities have been recorded yet.");
@@ -339,45 +343,39 @@ public class Main {
 
         int menu = Validations.intValidation("Enter Menu Choice: ", 2);
 
-        ArrayList<String> itemIDs = history.getItemIDsNewestFirst();
+        ArrayList<String> activities = history.getActivitiesNewestFirst();
 
         switch (menu) {
             case 1 -> {
                 Display.subHeaderTitle("All Activities");
-                showActivityTable(itemIDs);
+                showActivities(activities);
             }
             case 2 -> {
                 Display.subHeaderTitle("Recent Activity");
 
                 ArrayList<String> recent = new ArrayList<>();
-                if (!itemIDs.isEmpty()) {
-                    recent.add(itemIDs.get(0));
+
+                if (!activities.isEmpty()) {
+                    recent.add(activities.get(0));
                 }
-                showActivityTable(recent);
+
+                showActivities(recent);
             }
         }
+        logActivity("User Accessed: Displayed History Menu");
     }
-
-    private static void showActivityTable(ArrayList<String> itemIDs) {
-        ArrayList<String> claimedIDs =
-            lostAndFound.getActivityHistory().getClaimedItemIDs();
-        ArrayList<Item> rows = new ArrayList<>();
-
-        for (String itemID : itemIDs) {
-            Item item = lostAndFound.findItemByID(itemID);
-
-            if (item == null) {
-                continue;
-            }
-
-            if (claimedIDs.contains(item.getItemID())) {
-                item.setStatus("Claimed");
-            }
-
-            rows.add(item);
+    private static void showActivities(ArrayList<String> activities) {
+        if (activities.isEmpty()) {
+            System.out.println("No activities have been recorded yet.");
+            return;
         }
 
-        Display.itemsTable(rows, "Total activities", true);
+        for (String activity : activities) {
+            System.out.println(activity);
+        }
+
+        System.out.println("----------------------------------------");
+        System.out.println("Total activities: " + activities.size());
     }
 
     private static void logActivity(String message) {
@@ -392,6 +390,7 @@ public class Main {
     private static void displayAllItems(ArrayList<Item> items) {
         Display.subHeaderTitle("All Items");
         Display.itemsTable(items, "Total items", false);
+        logActivity("User Accessed: Displayed All Items");
     }
 
     private static void sortByDate() {
@@ -404,6 +403,7 @@ public class Main {
 
         Display.subHeaderTitle("Items Sorted by Date (Oldest to Newest)");
         Display.itemsTable(sorted, "Total items", false);
+        logActivity("User Accessed: Sort by Date");
     }
 
     private static void sortByItemLost() {
@@ -423,6 +423,7 @@ public class Main {
 
         Display.subHeaderTitle("Lost Items");
         Display.itemsTable(lostItems, "Total items", false);
+        logActivity("User Accessed: Sort Item by Lost");
     }
 
     private static void sortByItemsFound() {
@@ -442,5 +443,6 @@ public class Main {
 
         Display.subHeaderTitle("Found Items");
         Display.itemsTable(foundItems, "Total items", false);
+        logActivity("User Accessed: Sorted Items Found");
     }
 }
