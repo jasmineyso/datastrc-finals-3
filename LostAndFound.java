@@ -12,7 +12,7 @@ public class LostAndFound {
     private ArrayList<Item> items = new ArrayList<>();
     private ActivityHistory activityHistory = new ActivityHistory();
 
-    public static final int ITEM_ID = 0, ITEM_NAME = 1, ITEM_DESCRIPTION = 2, ITEM_DATE_REPORTED = 3, ITEM_LOCATION = 4, ITEM_FIELD_COUNT = 5;
+    public static final int ITEM_ID = 0, ITEM_NAME = 1, ITEM_DESCRIPTION = 2, ITEM_DATE_REPORTED = 3, ITEM_CONTAINER = 4, ITEM_FIELD_COUNT = 5;
 
     public LostAndFound() {
         initializeFile();
@@ -35,7 +35,7 @@ public class LostAndFound {
         itemRecord[ITEM_NAME] = item.getItemName();
         itemRecord[ITEM_DESCRIPTION] = item.getDescription();
         itemRecord[ITEM_DATE_REPORTED] = item.getDateReported();
-        itemRecord[ITEM_LOCATION] = String.valueOf(item.getLocation());
+        itemRecord[ITEM_CONTAINER] = String.valueOf(item.getContainer());
 
         return String.join("|", itemRecord);
     }
@@ -62,14 +62,14 @@ public class LostAndFound {
                             data[ITEM_NAME].trim(),
                             data[ITEM_DESCRIPTION].trim(),
                             data[ITEM_DATE_REPORTED].trim(),
-                            Integer.parseInt(data[ITEM_LOCATION].trim())
+                            Integer.parseInt(data[ITEM_CONTAINER].trim())
                         );
 
                         items.add(item);
 
                     } catch (NumberFormatException e) {
                         System.out.println(
-                            "Skipping record with invalid location."
+                            "Skipping record with invalid container."
                         );
                     }
                 }
@@ -150,7 +150,7 @@ public class LostAndFound {
     }
 
     public void updateItem(String itemID, String itemName,
-                              String description, int location) {
+                              String description, int container) {
 
         Item item = findItemByID(itemID);
 
@@ -161,7 +161,7 @@ public class LostAndFound {
 
         item.setItemName(itemName);
         item.setDescription(description);
-        item.setLocation(location);
+        item.setContainer(container);
 
         removeItem(itemID);
         addItem(item);
