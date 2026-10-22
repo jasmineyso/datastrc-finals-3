@@ -41,8 +41,8 @@ public class Display {
   public static void itemsTable(ArrayList<Item> items, String totalLabel, boolean withStatus){
     String format = withStatus ? " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n" : " %-10s | %-22s | %-40s | %-13s | %-8s%n";
     String[] headers = withStatus
-    ? new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION", "STATUS"}
-    : new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION"};
+    ? new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "CONTAINER", "STATUS"}
+    : new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "CONTAINER"};
     String lightLine = "-".repeat(MENU_WIDTH);
 
     System.out.printf(format, (Object[]) headers);
@@ -54,7 +54,7 @@ public class Display {
           fit(item.getItemName(), 22),
           fit(item.getDescription(), 40),
           item.getDateReported(),
-          item.getLocation(),
+          item.getContainer(),
           item.getStatus());
     }
 
