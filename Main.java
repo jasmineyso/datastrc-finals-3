@@ -378,28 +378,6 @@ public class Main {
         System.out.println("Total activities: " + activities.size());
     }
 
-    private static void showActivityTable(ArrayList<String> itemIDs) {
-        ArrayList<String> claimedIDs =
-            lostAndFound.getActivityHistory().getClaimedItemIDs();
-        ArrayList<Item> rows = new ArrayList<>();
-
-        for (String itemID : itemIDs) {
-            Item item = lostAndFound.findItemByID(itemID);
-
-            if (item == null) {
-                continue;
-            }
-
-            if (claimedIDs.contains(item.getItemID())) {
-                item.setStatus("Claimed");
-            }
-
-            rows.add(item);
-        }
-
-        Display.itemsTable(rows, "Total activities", true);
-    }
-
     private static void logActivity(String message) {
         String time = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
