@@ -4,16 +4,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ActivityHistory {
     private static final String FILE_NAME = "ACTIVITY.txt";
-    private Stack<String> activities = new Stack<>();
+    public Stack<String> activities = new Stack<>();
+
     public ActivityHistory() {
         loadActivities();
     }
 
     public boolean isEmpty() {
+        loadActivities();
         return activities.isEmpty();
     }
 
@@ -27,6 +30,8 @@ public class ActivityHistory {
     }
 
     public String viewLatestActivity() {
+        loadActivities();
+
         if (activities.isEmpty()) {
             return null;
         }
@@ -45,17 +50,40 @@ public class ActivityHistory {
         return removed;
     }
 
-    public void displayActivities() {
-        if (activities.isEmpty()) {
-            System.out.println("No activities yet.");
-            return;
-        }
+    public ArrayList<String> getItemIDsNewestFirst() {
+        loadActivities();
 
-        System.out.println("\n===== RECENT ACTIVITIES =====");
+        ArrayList<String> itemIDs = new ArrayList<>();
 
         for (int i = activities.size() - 1; i >= 0; i--) {
-            System.out.println(activities.get(i));
+            String activity = activities.get(i);
+            int start = activity.indexOf("ITM-");
+
+            if (start >= 0 && activity.length() >= start + 8) {
+                itemIDs.add(activity.substring(start, start + 8));
+            }
         }
+
+        return itemIDs;
+    }
+
+    public ArrayList<String> getClaimedItemIDs() {
+        loadActivities();
+
+        ArrayList<String> claimedIDs = new ArrayList<>();
+
+        for (String activity : activities) {
+            if (activity.matches("^(\\[.*?\\] )?Item ID: ITM-\\d{4} \\| Unclaimed -> Claimed$")) {
+                int start = activity.indexOf("ITM-");
+                String itemID = activity.substring(start, start + 8);
+
+                if (!claimedIDs.contains(itemID)) {
+                    claimedIDs.add(itemID);
+                }
+            }
+        }
+
+        return claimedIDs;
     }
 
     private void loadActivities() {

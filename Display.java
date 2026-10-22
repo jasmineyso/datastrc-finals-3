@@ -12,13 +12,17 @@ public class Display {
   }
 
   public static void headerTitle(String title){
+    String note = "Note: Press 0 to go back to Main Menu anytime";
     String heavyLine = "=".repeat(MENU_WIDTH); 
-    int center = Math.max(0, (MENU_WIDTH - title.length()) / 2);
+    int centerTitle = Math.max(0, (MENU_WIDTH - title.length()) / 2);
+    int centerNote = Math.max(0, (MENU_WIDTH - note.length()) / 2);
 
     System.out.println();
     System.out.println(heavyLine);
-    System.out.println(" ".repeat(center) + title.toUpperCase());
+    System.out.println(" ".repeat(centerTitle) + title.toUpperCase());
     System.out.println(heavyLine);
+
+    System.out.println(" ".repeat(centerNote) + note + "\n");
   }
 
   public static void subHeaderTitle(String title){
@@ -34,11 +38,14 @@ public class Display {
   }
 
 
-  public static void itemsTable(ArrayList<Item> items){
-    String format = " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n";
+  public static void itemsTable(ArrayList<Item> items, String totalLabel, boolean withStatus){
+    String format = withStatus ? " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n" : " %-10s | %-22s | %-40s | %-13s | %-8s%n";
+    String[] headers = withStatus
+    ? new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION", "STATUS"}
+    : new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION"};
     String lightLine = "-".repeat(MENU_WIDTH);
 
-    System.out.printf(format, "ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "LOCATION", "STATUS");
+    System.out.printf(format, (Object[]) headers);
     System.out.println(lightLine);
 
     for(Item item : items){
@@ -52,7 +59,7 @@ public class Display {
     }
 
     System.out.println(lightLine);
-    System.out.println(" Total items: " + items.size());
+    System.out.println(" " + totalLabel + ": " + items.size());
   }
 
   private static String fit(String text, int width){

@@ -109,7 +109,18 @@ public class LostAndFound {
         saveItems(itemRecord);
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<Item> getItems(){
+        loadItems();
+        ArrayList<String> claimed = getActivityHistory().getClaimedItemIDs();
+        for(Item item : items){
+            if (item == null) {
+                continue;
+            }
+
+            if (claimed.contains(item.getItemID())) {
+                item.setStatus("Claimed");
+            }
+        }
         return items;
     }
 
