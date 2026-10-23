@@ -134,7 +134,7 @@ public class Main {
             {"Date Reported", foundItem.getDateReported()},
             {"Item Status", foundItem.getStatus()}
         });
-        logActivity("User Accessed: Search Item");
+        logActivity("User Accessed: Search Item " + itemID);
     }
 
     private static void editItemRecord() {
@@ -332,7 +332,6 @@ public class Main {
         );
 
         System.out.println("\nItem claimed successfully.");
-        logActivity("User Accessed: Claimed an Item");
     }
 
 
