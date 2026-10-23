@@ -98,9 +98,9 @@ public class Main {
 
         switch (menu) {
             case 1 -> displayAllItems(items);
-            case 2 -> sortByDate();
-            case 3 -> sortByItemLost();
-            case 4 -> sortByItemsFound();
+            case 2 -> sortByDate(items);
+            case 3 -> sortByItemLost(items);
+            case 4 -> sortByItemsFound(items);
         }
     }
 
@@ -118,7 +118,7 @@ public class Main {
             "Enter Item ID to Search: "
         );
 
-        Item foundItem = lostAndFound.searchItem(itemID);
+        Item foundItem = lostAndFound.findItemByID(itemID);
 
         if (foundItem == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -131,7 +131,8 @@ public class Main {
             {"Item Name", foundItem.getItemName()},
             {"Item Description", foundItem.getDescription()},
             {"Item Container", String.valueOf(foundItem.getContainer())},
-            {"Date Reported", foundItem.getDateReported()}
+            {"Date Reported", foundItem.getDateReported()},
+            {"Item Status", foundItem.getStatus()}
         });
         logActivity("User Accessed: Search Item");
     }
@@ -150,7 +151,7 @@ public class Main {
             "Enter Item ID to Edit: "
         );
 
-        Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.findItemByID(itemID);
 
         if (item == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -287,7 +288,7 @@ public class Main {
         }
 
         String itemID = Validations.itemIDSearchValidation("Enter Item ID: ");
-        Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.findItemByID(itemID);
 
         if (item == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -345,7 +346,7 @@ public class Main {
 
         Display.headerTitle("Activity History");
         Display.displayMenu(
-            "Display All Activities",
+            "Display 10 Recent Activities",
             "Display Recent Activity"
         );
 
@@ -355,19 +356,16 @@ public class Main {
 
         switch (menu) {
             case 1 -> {
-                Display.subHeaderTitle("All Activities");
+                Display.subHeaderTitle("Recent Activities");
                 showActivities(activities);
             }
             case 2 -> {
                 Display.subHeaderTitle("Recent Activity");
 
-                ArrayList<String> recent = new ArrayList<>();
+                String recent = history.viewLatestActivity();
 
-                if (!activities.isEmpty()) {
-                    recent.add(activities.get(0));
-                }
-
-                showActivities(recent);
+                System.out.println(recent);
+                System.out.println("----------------------------------------");
             }
         }
         logActivity("User Accessed: Displayed History Menu");
@@ -401,12 +399,27 @@ public class Main {
         logActivity("User Accessed: Displayed All Items");
     }
 
-    private static void sortByDate() {
-        ArrayList<Item> sorted = lostAndFound.sortItemsByDate();
-
-        if (sorted.isEmpty()) {
+    private static void sortByDate(ArrayList<Item> items) {
+        Display.headerTitle("Sort by Date");
+        if (items.isEmpty()) {
             System.out.println("No items have been reported yet.");
             return;
+        }
+
+        ArrayList<Item> sorted = new ArrayList<>(items);
+
+        for (int i = 1; i < sorted.size(); i++) {
+            Item current = sorted.get(i);
+            int j = i - 1;
+
+            while (j >= 0 && sorted.get(j).getDateReported()
+                    .compareTo(current.getDateReported()) > 0) {
+
+                sorted.set(j + 1, sorted.get(j));
+                j--;
+            }
+
+            sorted.set(j + 1, current);
         }
 
         Display.subHeaderTitle("Items Sorted by Date (Oldest to Newest)");
@@ -414,8 +427,7 @@ public class Main {
         logActivity("User Accessed: Sort by Date");
     }
 
-    private static void sortByItemLost() {
-        ArrayList<Item> items = lostAndFound.getItems();
+    private static void sortByItemLost(ArrayList<Item> items) {
         ArrayList<Item> lostItems = new ArrayList<>();
 
         for (Item item : items) {
@@ -434,8 +446,7 @@ public class Main {
         logActivity("User Accessed: Sort Item by Lost");
     }
 
-    private static void sortByItemsFound() {
-        ArrayList<Item> items = lostAndFound.getItems();
+    private static void sortByItemsFound(ArrayList<Item> items) {
         ArrayList<Item> foundItems = new ArrayList<>();
 
         for (Item item : items) {
