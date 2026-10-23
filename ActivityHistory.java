@@ -56,7 +56,7 @@ public class ActivityHistory {
 
         ArrayList<String> recentActivities = new ArrayList<>();
 
-        for (int i = 10 - 1; i >= 0; i--) {
+        for (int i = activities.size() - 1; i >= activities.size() - 10; i--) {
             recentActivities.add(activities.get(i));
         }
 

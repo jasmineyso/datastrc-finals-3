@@ -1,4 +1,4 @@
-ITM-0001|Umbrella|Black Shigetsu|2026-10-18|2
+ITM-0001|Burellhh12@|2613623672736136312|2026-10-18|2
 ITM-0002|Turbo fan|Jisu Life|2026-10-18|3
 ITM-0003|Wallet|Black|2026-10-15|1
 ITM-0004|Phone|Iphone|2026-10-18|3
@@ -6,3 +6,4 @@ ITM-0005|Charger|33W white|2026-10-18|5
 ITM-0006|Bracelet|Pink|2026-10-19|3
 ITM-0007|headphones|blue|2026-10-19|3
 ITM-0008|Water Tumbler|pink and green|2026-10-19|2
+ITM-0009|Gun|Malaking bureehl|2026-10-24|5
