@@ -13,7 +13,8 @@ public class Main {
         FileInitializer.initializeFiles();
         lostAndFound = new LostAndFound();
 
-        System.out.println("CAMPUS LOST AND FOUND MANAGEMENT SYSTEM");
+        System.out.println("\n\n");
+        Display.centerText("CAMPUS LOST AND FOUND MANAGEMENT SYSTEM");
 
         boolean isExit = false;
 
@@ -42,7 +43,7 @@ public class Main {
                     case 7 -> isExit = true;
                 }
             } catch (BackToMenuException e) {
-                System.out.println("Returning to Main Menu.");
+                System.out.println(e.getMessage());
             }
         }
 
@@ -65,18 +66,16 @@ public class Main {
         Item item = new Item(itemID, name, description, date, container);
         lostAndFound.addItem(item);
 
-        logActivity("Item ID: " + item.getItemID() + " | " + item.getItemName());
-
-        System.out.println("Item reported successfully.");
-
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Report",new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
             {"Item Container", String.valueOf(item.getContainer())},
             {"Date Reported", item.getDateReported()}
         });
+
+        logActivity("Item ID: " + item.getItemID() + " | " + item.getItemName());
     }
 
     private static void displayItemsMain() {
@@ -92,11 +91,10 @@ public class Main {
             "All Items",
             "Sort by Date",
             "Sort by Items Lost (Unclaimed)",
-            "Sort by Items Found (Claimed)",
-            "Return to Main Menu"
+            "Sort by Items Found (Claimed)"
         );
 
-        int menu = Validations.intValidation("Enter Menu Choice: ", 5);
+        int menu = Validations.intValidation("Enter Menu Choice: ", 4);
 
         switch (menu) {
             case 1 -> displayAllItems(items);
@@ -128,7 +126,7 @@ public class Main {
         }
 
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Search", new String[][] {
             {"Item ID", foundItem.getItemID()},
             {"Item Name", foundItem.getItemName()},
             {"Item Description", foundItem.getDescription()},
@@ -168,7 +166,7 @@ public class Main {
         }
 
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Edit", new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
@@ -180,11 +178,10 @@ public class Main {
         Display.displayMenu(
             "Edit Item Name",
             "Edit Description",
-            "Edit Container",
-            "Return"
+            "Edit Container"
         );
 
-        int choice = Validations.intValidation("Enter Menu Choice: ", 4);
+        int choice = Validations.intValidation("Enter Menu Choice: ", 3);
 
         switch (choice) {
             case 1:
@@ -292,10 +289,8 @@ public class Main {
             return;
         }
 
-        System.out.println("Item found!");
-
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Mark", new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},

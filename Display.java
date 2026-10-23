@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Display {
   public static final int MENU_WIDTH = 121;
+
   public static void displayMenu(String ... choices){
     String lightLine = "-".repeat(MENU_WIDTH);
     for (int i = 0; i < choices.length; i++) {
@@ -11,21 +12,31 @@ public class Display {
     System.out.println(lightLine);
   }
 
+  public static void centerText(String text){
+    int center = Math.max(0, (MENU_WIDTH - text.length()) / 2);
+
+    System.out.println(" ".repeat(center) + text.toUpperCase());
+  }
+
   public static void headerTitle(String title){
-    String note = "Note: Press 0 to go back to Main Menu anytime";
     String heavyLine = "=".repeat(MENU_WIDTH); 
-    int centerTitle = Math.max(0, (MENU_WIDTH - title.length()) / 2);
-    int centerNote = Math.max(0, (MENU_WIDTH - note.length()) / 2);
 
     System.out.println();
     System.out.println(heavyLine);
-    System.out.println(" ".repeat(centerTitle) + title.toUpperCase());
+    centerText(title);
     System.out.println(heavyLine);
 
-    System.out.println(" ".repeat(centerNote) + note + "\n");
+    if(!title.equalsIgnoreCase("Main menu")){
+      String note = "Note: Press 0 to go back to Main Menu anytime";
+      centerText(note);
+      if (!title.equalsIgnoreCase("Report An Item")) {
+        System.out.println("\n"); 
+      }
+    }
   }
 
   public static void subHeaderTitle(String title){
+    System.out.println("\n");
     String subHeader = " " + title.toUpperCase() + " ";
         int dashCount = (MENU_WIDTH - subHeader.length()) / 2;
 
@@ -39,7 +50,7 @@ public class Display {
 
 
   public static void itemsTable(ArrayList<Item> items, String totalLabel, boolean withStatus){
-    String format = withStatus ? " %-10s | %-22s | %-40s | %-13s | %-8s | %-12s%n" : " %-10s | %-22s | %-40s | %-13s | %-8s%n";
+    String format = withStatus ? " %-10s | %-22s | %-40s | %-13s | %-10s | %-12s%n" : " %-10s | %-22s | %-40s | %-13s | %-10s%n";
     String[] headers = withStatus
     ? new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "CONTAINER", "STATUS"}
     : new String[] {"ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE", "CONTAINER"};
@@ -62,7 +73,7 @@ public class Display {
     System.out.println(" " + totalLabel + ": " + items.size());
   }
 
-  public static void displayAnItem(String[][] itemDetails){
+  public static void displayAnItem(String action, String[][] itemDetails){
     int labelWidth = 0;
     for (String[] row : itemDetails) {
       labelWidth = Math.max(labelWidth, row[0].length());
@@ -70,6 +81,14 @@ public class Display {
 
     for (String[] row : itemDetails) {
       System.out.printf("\t%-" + labelWidth + "s : %s%n", row[0], row[1]);
+    }
+
+    System.out.println("-".repeat(MENU_WIDTH));
+    
+    if(action.equalsIgnoreCase("report")){
+      System.out.println("Item reported successfully.");
+    }else if(action.equalsIgnoreCase("edit") || action.equalsIgnoreCase("mark")){
+      System.out.println("Item found.");
     }
   }
 
