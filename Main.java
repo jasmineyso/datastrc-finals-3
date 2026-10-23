@@ -194,16 +194,21 @@ public class Main {
                     );
                 } else {
                     String oldName = item.getItemName();
-                    item.setItemName(name);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            name,
+                            item.getDescription(),
+                            item.getContainer())) {
+                        System.out.println(
+                            "'" + oldName + "' is updated to '"
+                            + name + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldName + "' is updated to '" + name + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Name: " + oldName + " -> " + name
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Name: " + oldName + " -> " + name
+                        );
+                    }
                 }
                 break;
 
@@ -219,18 +224,22 @@ public class Main {
                     );
                 } else {
                     String oldDescription = item.getDescription();
-                    item.setDescription(description);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            item.getItemName(),
+                            description,
+                            item.getContainer())) {
+                        System.out.println(
+                            "'" + oldDescription + "' is updated to '"
+                            + description + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldDescription + "' is updated to '"
-                        + description + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Description: " + oldDescription
-                        + " -> " + description
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Description: " + oldDescription
+                            + " -> " + description
+                        );
+                    }
                 }
                 break;
 
@@ -246,18 +255,22 @@ public class Main {
                     );
                 } else {
                     int oldContainer = item.getContainer();
-                    item.setContainer(container);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            item.getItemName(),
+                            item.getDescription(),
+                            container)) {
+                        System.out.println(
+                            "'" + oldContainer + "' is updated to '"
+                            + container + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldContainer + "' is updated to '"
-                        + container + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Container: " + oldContainer
-                        + " -> " + container
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Container: " + oldContainer
+                            + " -> " + container
+                        );
+                    }
                 }
                 break;
         }

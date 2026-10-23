@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -149,22 +151,88 @@ public class LostAndFound {
         return null;
     }
 
-    public void updateItem(String itemID, String itemName,
+    public boolean updateItem(String itemID, String itemName,
                               String description, int container) {
 
         Item item = findItemByID(itemID);
 
         if (item == null) {
             System.out.println("No item found.");
-            return;
+            return false;
+        }
+
+        String updatedRecord = String.join(
+            "|",
+            item.getItemID(),
+            itemName,
+            description,
+            item.getDateReported(),
+            String.valueOf(container)
+        );
+
+        if (!replaceRecord(itemID, updatedRecord)) {
+            return false;
         }
 
         item.setItemName(itemName);
         item.setDescription(description);
         item.setContainer(container);
+        return true;
+    }
 
-        removeItem(itemID);
-        addItem(item);
+    private boolean replaceRecord(String itemID, String updatedRecord) {
+        File file = new File("ITEMS.txt");
+        File tempFile = new File("ITEMS.txt.tmp");
+        boolean replaced = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|", -1);
+                if (parts.length > ITEM_ID
+                        && parts[ITEM_ID].trim().equalsIgnoreCase(itemID)) {
+                    line = updatedRecord;
+                    replaced = true;
+                }
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Could not update item record: " + e.getMessage());
+            deleteTemporaryFile(tempFile);
+            return false;
+        }
+
+        if (!replaced) {
+            System.out.println("Could not update item: record not found in ITEMS.txt.");
+            deleteTemporaryFile(tempFile);
+            return false;
+        }
+
+        try {
+            Files.move(
+                tempFile.toPath(),
+                file.toPath(),
+                StandardCopyOption.REPLACE_EXISTING
+            );
+            return true;
+        } catch (IOException e) {
+            System.out.println("Could not replace item record: " + e.getMessage());
+            deleteTemporaryFile(tempFile);
+            return false;
+        }
+    }
+
+    private void deleteTemporaryFile(File tempFile) {
+        try {
+            Files.deleteIfExists(tempFile.toPath());
+        } catch (IOException e) {
+            System.out.println(
+                "Could not remove temporary item file: " + e.getMessage()
+            );
+        }
     }
 
     public void removeItem(String itemID) {
