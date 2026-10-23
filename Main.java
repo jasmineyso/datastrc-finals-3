@@ -13,7 +13,8 @@ public class Main {
         FileInitializer.initializeFiles();
         lostAndFound = new LostAndFound();
 
-        System.out.println("CAMPUS LOST AND FOUND MANAGEMENT SYSTEM");
+        System.out.println("\n\n");
+        Display.centerText("CAMPUS LOST AND FOUND MANAGEMENT SYSTEM");
 
         boolean isExit = false;
 
@@ -42,7 +43,7 @@ public class Main {
                     case 7 -> isExit = true;
                 }
             } catch (BackToMenuException e) {
-                System.out.println("Returning to Main Menu.");
+                System.out.println(e.getMessage());
             }
         }
 
@@ -65,18 +66,16 @@ public class Main {
         Item item = new Item(itemID, name, description, date, container);
         lostAndFound.addItem(item);
 
-        logActivity("Item ID: " + item.getItemID() + " | " + item.getItemName());
-
-        System.out.println("Item reported successfully.");
-
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Report",new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
             {"Item Container", String.valueOf(item.getContainer())},
             {"Date Reported", item.getDateReported()}
         });
+
+        logActivity("Item ID: " + item.getItemID() + " | " + item.getItemName());
     }
 
     private static void displayItemsMain() {
@@ -92,17 +91,16 @@ public class Main {
             "All Items",
             "Sort by Date",
             "Sort by Items Lost (Unclaimed)",
-            "Sort by Items Found (Claimed)",
-            "Return to Main Menu"
+            "Sort by Items Found (Claimed)"
         );
 
-        int menu = Validations.intValidation("Enter Menu Choice: ", 5);
+        int menu = Validations.intValidation("Enter Menu Choice: ", 4);
 
         switch (menu) {
             case 1 -> displayAllItems(items);
-            case 2 -> sortByDate();
-            case 3 -> sortByItemLost();
-            case 4 -> sortByItemsFound();
+            case 2 -> sortByDate(items);
+            case 3 -> sortByItemLost(items);
+            case 4 -> sortByItemsFound(items);
         }
     }
 
@@ -120,7 +118,7 @@ public class Main {
             "Enter Item ID to Search: "
         );
 
-        Item foundItem = lostAndFound.searchItem(itemID);
+        Item foundItem = lostAndFound.findItemByID(itemID);
 
         if (foundItem == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -128,14 +126,15 @@ public class Main {
         }
 
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Search", new String[][] {
             {"Item ID", foundItem.getItemID()},
             {"Item Name", foundItem.getItemName()},
             {"Item Description", foundItem.getDescription()},
             {"Item Container", String.valueOf(foundItem.getContainer())},
-            {"Date Reported", foundItem.getDateReported()}
+            {"Date Reported", foundItem.getDateReported()},
+            {"Item Status", foundItem.getStatus()}
         });
-        logActivity("User Accessed: Search Item");
+        logActivity("User Accessed: Search Item " + itemID);
     }
 
     private static void editItemRecord() {
@@ -152,7 +151,7 @@ public class Main {
             "Enter Item ID to Edit: "
         );
 
-        Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.findItemByID(itemID);
 
         if (item == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -168,7 +167,7 @@ public class Main {
         }
 
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Edit", new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
@@ -180,11 +179,10 @@ public class Main {
         Display.displayMenu(
             "Edit Item Name",
             "Edit Description",
-            "Edit Container",
-            "Return"
+            "Edit Container"
         );
 
-        int choice = Validations.intValidation("Enter Menu Choice: ", 4);
+        int choice = Validations.intValidation("Enter Menu Choice: ", 3);
 
         switch (choice) {
             case 1:
@@ -197,16 +195,21 @@ public class Main {
                     );
                 } else {
                     String oldName = item.getItemName();
-                    item.setItemName(name);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            name,
+                            item.getDescription(),
+                            item.getContainer())) {
+                        System.out.println(
+                            "'" + oldName + "' is updated to '"
+                            + name + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldName + "' is updated to '" + name + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Name: " + oldName + " -> " + name
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Name: " + oldName + " -> " + name
+                        );
+                    }
                 }
                 break;
 
@@ -222,18 +225,22 @@ public class Main {
                     );
                 } else {
                     String oldDescription = item.getDescription();
-                    item.setDescription(description);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            item.getItemName(),
+                            description,
+                            item.getContainer())) {
+                        System.out.println(
+                            "'" + oldDescription + "' is updated to '"
+                            + description + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldDescription + "' is updated to '"
-                        + description + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Description: " + oldDescription
-                        + " -> " + description
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Description: " + oldDescription
+                            + " -> " + description
+                        );
+                    }
                 }
                 break;
 
@@ -249,18 +256,22 @@ public class Main {
                     );
                 } else {
                     int oldContainer = item.getContainer();
-                    item.setContainer(container);
+                    if (lostAndFound.updateItem(
+                            item.getItemID(),
+                            item.getItemName(),
+                            item.getDescription(),
+                            container)) {
+                        System.out.println(
+                            "'" + oldContainer + "' is updated to '"
+                            + container + "' successfully."
+                        );
 
-                    System.out.println(
-                        "'" + oldContainer + "' is updated to '"
-                        + container + "' successfully."
-                    );
-
-                    logActivity(
-                        "Edited " + item.getItemID()
-                        + " | Container: " + oldContainer
-                        + " -> " + container
-                    );
+                        logActivity(
+                            "Edited " + item.getItemID()
+                            + " | Container: " + oldContainer
+                            + " -> " + container
+                        );
+                    }
                 }
                 break;
         }
@@ -277,7 +288,7 @@ public class Main {
         }
 
         String itemID = Validations.itemIDSearchValidation("Enter Item ID: ");
-        Item item = lostAndFound.searchItem(itemID);
+        Item item = lostAndFound.findItemByID(itemID);
 
         if (item == null) {
             System.out.println("Item " + itemID + " not found.");
@@ -292,10 +303,8 @@ public class Main {
             return;
         }
 
-        System.out.println("Item found!");
-
         Display.subHeaderTitle("Item Details");
-        Display.displayAnItem(new String[][] {
+        Display.displayAnItem("Mark", new String[][] {
             {"Item ID", item.getItemID()},
             {"Item Name", item.getItemName()},
             {"Item Description", item.getDescription()},
@@ -323,7 +332,6 @@ public class Main {
         );
 
         System.out.println("\nItem claimed successfully.");
-        logActivity("User Accessed: Claimed an Item");
     }
 
 
@@ -337,7 +345,7 @@ public class Main {
 
         Display.headerTitle("Activity History");
         Display.displayMenu(
-            "Display All Activities",
+            "Display 10 Recent Activities",
             "Display Recent Activity"
         );
 
@@ -347,19 +355,16 @@ public class Main {
 
         switch (menu) {
             case 1 -> {
-                Display.subHeaderTitle("All Activities");
+                Display.subHeaderTitle("Recent Activities");
                 showActivities(activities);
             }
             case 2 -> {
                 Display.subHeaderTitle("Recent Activity");
 
-                ArrayList<String> recent = new ArrayList<>();
+                String recent = history.viewLatestActivity();
 
-                if (!activities.isEmpty()) {
-                    recent.add(activities.get(0));
-                }
-
-                showActivities(recent);
+                System.out.println(recent);
+                System.out.println("----------------------------------------");
             }
         }
         logActivity("User Accessed: Displayed History Menu");
@@ -393,12 +398,27 @@ public class Main {
         logActivity("User Accessed: Displayed All Items");
     }
 
-    private static void sortByDate() {
-        ArrayList<Item> sorted = lostAndFound.sortItemsByDate();
-
-        if (sorted.isEmpty()) {
+    private static void sortByDate(ArrayList<Item> items) {
+        Display.headerTitle("Sort by Date");
+        if (items.isEmpty()) {
             System.out.println("No items have been reported yet.");
             return;
+        }
+
+        ArrayList<Item> sorted = new ArrayList<>(items);
+
+        for (int i = 1; i < sorted.size(); i++) {
+            Item current = sorted.get(i);
+            int j = i - 1;
+
+            while (j >= 0 && sorted.get(j).getDateReported()
+                    .compareTo(current.getDateReported()) > 0) {
+
+                sorted.set(j + 1, sorted.get(j));
+                j--;
+            }
+
+            sorted.set(j + 1, current);
         }
 
         Display.subHeaderTitle("Items Sorted by Date (Oldest to Newest)");
@@ -406,8 +426,7 @@ public class Main {
         logActivity("User Accessed: Sort by Date");
     }
 
-    private static void sortByItemLost() {
-        ArrayList<Item> items = lostAndFound.getItems();
+    private static void sortByItemLost(ArrayList<Item> items) {
         ArrayList<Item> lostItems = new ArrayList<>();
 
         for (Item item : items) {
@@ -426,8 +445,7 @@ public class Main {
         logActivity("User Accessed: Sort Item by Lost");
     }
 
-    private static void sortByItemsFound() {
-        ArrayList<Item> items = lostAndFound.getItems();
+    private static void sortByItemsFound(ArrayList<Item> items) {
         ArrayList<Item> foundItems = new ArrayList<>();
 
         for (Item item : items) {
