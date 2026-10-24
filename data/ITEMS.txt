@@ -5,3 +5,4 @@ ITM-0004|Laptop charger|black|2026-10-24|1
 ITM-0005|Adopter|Last seen at MB 403|2026-10-24|4
 ITM-0006|Hair Clamp|Flower|2026-10-24|2
 ITM-0007|Wallet|Black compact|2026-10-24|1
+ITM-0008|Slippers|Nike Blue|2026-10-24|2

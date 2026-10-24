@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class ActivityHistory {
-    private static final String FILE_NAME = "ACTIVITY.txt";
+    private static final File FILE = FileInitializer.ACTIVITY_FILE;
     public Stack<String> activities = new Stack<>();
 
     public ActivityHistory() {
@@ -76,7 +76,7 @@ public class ActivityHistory {
     private void loadActivities() {
         activities.clear();
 
-        File file = new File(FILE_NAME);
+        File file = FILE;
 
         if (!file.exists()) {
             return;
@@ -100,7 +100,7 @@ public class ActivityHistory {
 
     private void appendActivity(String activity) {
         try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME, true))) {
+                new FileWriter(FILE, true))) {
 
             writer.write(activity);
             writer.newLine();

@@ -5,23 +5,32 @@ import java.io.IOException;
 
 public class FileInitializer {
 
-    private static final String[] FILES = {
-        "ITEMS.txt",
-        "ACTIVITY.txt"
+    public static final File ITEMS_FILE = new File("data", "ITEMS.txt");
+    public static final File ACTIVITY_FILE = new File("data", "ACTIVITY.txt");
+
+    private static final File[] FILES = {
+        ITEMS_FILE,
+        ACTIVITY_FILE
     };
 
     public static void initializeFiles() {
-        for (String fileName : FILES) {
-            File file = new File(fileName);
+        File dataDirectory = new File("data");
+        if (!dataDirectory.exists() && !dataDirectory.mkdirs()) {
+            throw new IllegalStateException(
+                "Could not create data directory: " + dataDirectory.getPath()
+            );
+        }
 
+        for (File file : FILES) {
             if (!file.exists()) {
                 try {
                     if (file.createNewFile()) {
-                        System.out.println(fileName + " created successfully.");
+                        System.out.println(file.getPath() + " created successfully.");
                     }
                 } catch (IOException e) {
-                    System.out.println(
-                        "Error creating " + fileName + ": " + e.getMessage()
+                    throw new IllegalStateException(
+                        "Error creating " + file.getPath(),
+                        e
                     );
                 }
             }
