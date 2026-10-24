@@ -3,12 +3,6 @@ ITM-0002|Turbo fan|Jisu Life|2026-10-18|3
 ITM-0003|Wallet|Black|2026-10-15|1
 ITM-0004|Phone|Iphone|2026-10-18|3
 ITM-0005|Charger|33W white|2026-10-18|5
-ITM-0006|Bracelet|Pink|2026-10-19|2
+ITM-0006|Bracelet|Pink|2026-10-19|3
 ITM-0007|headphones|blue|2026-10-19|3
-ITM-0008|tumbler|pink and green|2026-10-19|2
-ITM-0009|Laptop|Black|2026-10-19|3
-ITM-0010|Earphones|Black type c|2026-10-19|3
-ITM-0011|jhsjad|jsis|2026-10-20|0
-ITM-0012|sjsjjd|||0
-ITM-0013|earphones|white type c|2026-10-20|2
-ITM-0014|iPhone13|Midnight Black|2026-10-22|1
+ITM-0008|Water Tumbler|pink and green|2026-10-19|2
