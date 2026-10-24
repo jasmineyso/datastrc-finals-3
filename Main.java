@@ -59,7 +59,7 @@ public class Main {
         String name = Validations.stringValidation("Item Name: ");
         String description = Validations.stringValidation("Item Description: ");
         String date = LocalDate.now().toString();
-        int container = Validations.intValidation("Container (1-5): ", 5);
+        int container = selectAvailableContainer(items, "Store Item");
 
         String itemID = ItemIDGenerator.nextID(items);
 
@@ -245,9 +245,7 @@ public class Main {
                 break;
 
             case 3:
-                int container = Validations.intValidation(
-                    "Enter New Container (1-5): ", 5
-                );
+                int container = selectAvailableContainer(items, "Change Container");
 
                 if (item.getContainer() == container) {
                     System.out.println(
@@ -390,6 +388,94 @@ public class Main {
         lostAndFound.getActivityHistory().addActivity(
             "[" + time + "] " + message
         );
+    }
+
+    private static int selectAvailableContainer(ArrayList<Item> items, String action) {
+        while (true) {
+
+            Display.headerTitle(action);
+
+            Display.containerSelection(items);
+
+            int container = Validations.intValidation(
+                "        Select Container (1-5): ",
+                5
+            );
+
+            int count = lostAndFound.getContainerItemCount(container);
+
+            // Prevent selection of a full container
+            if (count >= LostAndFound.CONTAINER_CAPACITY) {
+
+                System.out.println();
+                System.out.println("        [!] Container " + container
+                        + " is FULL (" + count + "/"
+                        + LostAndFound.CONTAINER_CAPACITY + ").");
+
+                System.out.println(
+                    "        Please select another available container."
+                );
+
+                System.out.println();
+                continue;
+            }
+
+            int remaining =
+                LostAndFound.CONTAINER_CAPACITY - count;
+
+            // Display selected container information
+            System.out.println();
+            System.out.println("=".repeat(Display.MENU_WIDTH));
+
+            Display.centerText(
+                "CONTAINER " + container + " SELECTED"
+            );
+
+            System.out.println("=".repeat(Display.MENU_WIDTH));
+
+            System.out.println();
+            System.out.println(
+                "        Capacity of container " + container + ": "
+                + count + "/"
+                + LostAndFound.CONTAINER_CAPACITY
+            );
+
+            System.out.println(
+                "        Available slots: " + remaining
+            );
+
+            System.out.println();
+            System.out.println("=".repeat(Display.MENU_WIDTH));
+
+            // Ask the user to confirm
+            char confirm = Validations.charValidation(
+                "        Confirm Container " + container + "? (y/n): "
+            );
+
+            if (confirm == 'y') {
+
+                System.out.println();
+                System.out.println(
+                    "        Container " + container
+                    + " confirmed successfully."
+                );
+
+                System.out.println();
+
+                return container;
+            }
+
+            System.out.println();
+            System.out.println(
+                "        Container selection cancelled."
+            );
+
+            System.out.println(
+                "        Please select another container."
+            );
+
+            System.out.println();
+        }
     }
 
     private static void displayAllItems(ArrayList<Item> items) {

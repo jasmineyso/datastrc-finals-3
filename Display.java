@@ -3,6 +3,59 @@ import java.util.ArrayList;
 public class Display {
   public static final int MENU_WIDTH = 121;
 
+<<<<<<< HEAD
+=======
+  public static void containerSelection(ArrayList<Item> items) {
+      headerTitle("Select Container");
+
+      System.out.println("Available Storage Containers");
+      System.out.println("-".repeat(MENU_WIDTH));
+
+      for (int container = 1; container <= LostAndFound.CONTAINER_COUNT; container++) {
+          int count = 0;
+
+          for (Item item : items) {
+              if (item.getContainer() == container
+                      && item.getStatus().equalsIgnoreCase("Unclaimed")) {
+                  count++;
+              }
+          }
+
+          int remaining = LostAndFound.CONTAINER_CAPACITY - count;
+
+          String status;
+
+          if (remaining == 0) {
+              status = "FULL";
+          } else if (remaining <= 10) {
+              status = "NEAR FULL";
+          } else {
+              status = "AVAILABLE";
+          }
+
+          System.out.printf(
+              "        [%d] Container %d    Capacity: %d/%d    Status: %s%n",
+              container,
+              container,
+              count,
+              LostAndFound.CONTAINER_CAPACITY,
+              status
+          );
+      }
+
+      System.out.println("-".repeat(MENU_WIDTH));
+      System.out.println("        [0] Return to Main Menu");
+      System.out.println();
+
+      System.out.println(
+          "        Note: Full containers cannot be selected."
+      );
+
+      System.out.println();
+  }
+
+
+>>>>>>> origin/master
   public static void displayMenu(String ... choices){
     String lightLine = "-".repeat(MENU_WIDTH);
     for (int i = 0; i < choices.length; i++) {

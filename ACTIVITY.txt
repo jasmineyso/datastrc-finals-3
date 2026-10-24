@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2026-10-23 11:46] Item ID: ITM-0001 | Laptop Charger
 [2026-10-23 11:46] User Accessed: Displayed History Menu
 [2026-10-23 11:46] User Accessed: Displayed History Menu
@@ -95,3 +96,30 @@
 [2026-10-24 06:42] User Accessed: Displayed History Menu
 [2026-10-24 06:43] User Accessed: Displayed History Menu
 [2026-10-24 06:43] User Accessed: Displayed History Menu
+=======
+[2026-10-20 12:08] Item ID: ITM-0010 | Unclaimed -> Claimed
+[2026-10-20 12:10] Item ID: ITM-0010 | Unclaimed -> Claimed
+[2026-10-20 12:14] Item ID: ITM-0009 | Unclaimed -> Claimed
+[2026-10-20 17:50] Item ID: ITM-0009 | Unclaimed -> Claimed
+[2026-10-20 17:51] Item ID: ITM-0005 | Unclaimed -> Claimed
+[2026-10-20 17:54] Item ID: ITM-0007 | Unclaimed -> Claimed
+[2026-10-20 18:18] Reported ITM-0011 | jhsjad
+[2026-10-20 18:19] Reported ITM-0012 | sjsjjd
+[2026-10-20 19:02] Item ID: ITM-0006 | Unclaimed -> Claimed
+[2026-10-20 19:44] Reported ITM-0013 | earphones
+[2026-10-20 19:45] Edited ITM-0007 | Description: blue -> red
+[2026-10-22 13:00] User Accessed: Sort Item by Lost
+[2026-10-22 13:00] User Accessed: Displayed History Menu
+[2026-10-22 13:01] User Accessed: Search Item
+[2026-10-22 13:01] User Accessed: Displayed History Menu
+[2026-10-22 13:01] User Accessed: Displayed History Menu
+[2026-10-22 13:02] User Accessed: Sort Item by Lost
+[2026-10-22 13:03] Edited ITM-0001 | Description: Black Shigetsu -> Hello test
+[2026-10-22 13:03] User Accessed: Displayed History Menu
+[2026-10-22 13:05] Item ID: ITM-0014 | iPhone13
+[2026-10-22 13:05] User Accessed: Displayed History Menu
+[2026-10-22 13:29] User Accessed: Sort by Date
+[2026-10-22 13:30] User Accessed: Displayed All Items
+[2026-10-22 13:31] User Accessed: Displayed History Menu
+[2026-10-24 09:34] Item ID: ITM-0009 | Roeoe
+>>>>>>> origin/master

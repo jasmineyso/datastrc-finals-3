@@ -6,3 +6,7 @@ ITM-0005|Charger|33W white|2026-10-18|5
 ITM-0006|Bracelet|Pink|2026-10-19|3
 ITM-0007|headphones|blue|2026-10-19|3
 ITM-0008|Water Tumbler|pink and green|2026-10-19|2
+<<<<<<< HEAD
+=======
+ITM-0009|Roeoe|4|2026-10-24|5
+>>>>>>> origin/master
