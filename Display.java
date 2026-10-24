@@ -3,8 +3,6 @@ import java.util.ArrayList;
 public class Display {
   public static final int MENU_WIDTH = 121;
 
-<<<<<<< HEAD
-=======
   public static void containerSelection(ArrayList<Item> items) {
       headerTitle("Select Container");
 
@@ -55,7 +53,6 @@ public class Display {
   }
 
 
->>>>>>> origin/master
   public static void displayMenu(String ... choices){
     String lightLine = "-".repeat(MENU_WIDTH);
     for (int i = 0; i < choices.length; i++) {
