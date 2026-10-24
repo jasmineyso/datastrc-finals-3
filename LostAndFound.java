@@ -92,6 +92,34 @@ public class LostAndFound {
         return items.isEmpty();
     }
 
+    public static final int CONTAINER_COUNT = 5;
+    public static final int CONTAINER_CAPACITY = 50;
+
+    /** Returns the number of currently stored (unclaimed) items in a container. */
+    public int getContainerItemCount(int container) {
+        int count = 0;
+        for (Item item : items) {
+            if (item.getContainer() == container
+                    && item.getStatus().equalsIgnoreCase("Unclaimed")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getContainerRemainingCapacity(int container) {
+        return CONTAINER_CAPACITY - getContainerItemCount(container);
+    }
+
+    public boolean isContainerFull(int container) {
+        return getContainerItemCount(container) >= CONTAINER_CAPACITY;
+    }
+
+    public boolean isValidContainer(int container) {
+        return container >= 1 && container <= CONTAINER_COUNT;
+    }
+
+
     public boolean idExists(String itemID) {
         for (Item item : items) {
             if (item.getItemID().equalsIgnoreCase(itemID)) {
