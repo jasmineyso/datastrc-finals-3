@@ -1,4 +1,9 @@
+package guide;
+
 import java.util.ArrayList;
+
+import backend.Item;
+import backend.LostAndFound;
 
 public class Display {
   public static final int MENU_WIDTH = 121;

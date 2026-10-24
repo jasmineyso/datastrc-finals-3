@@ -1,4 +1,8 @@
+package guide;
+
 import java.util.ArrayList;
+
+import backend.Item;
 
 public class ItemIDGenerator {
   private static final String PREFIX = "ITM-";

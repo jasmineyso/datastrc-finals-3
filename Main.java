@@ -4,6 +4,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import backend.ActivityHistory;
+import backend.FileInitializer;
+import backend.Item;
+import backend.LostAndFound;
+import guide.BackToMenuException;
+import guide.Display;
+import guide.ItemIDGenerator;
+import guide.Validations;
+
 public class Main {
     private static LostAndFound lostAndFound;
     public Scanner sc = new Scanner(System.in);

@@ -1,3 +1,5 @@
+package backend;
+
 public enum ItemStatus {
   CLAIMED("Claimed"),
   UNCLAIMED("Unclaimed");

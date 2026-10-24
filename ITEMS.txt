@@ -1,6 +1,0 @@
-ITM-0001|Tumbler|Red & purple|2026-10-24|2
-ITM-0002|Bracelet|Pink & white beads|2026-10-24|3
-ITM-0003|Phone charger|33W white|2026-10-24|2
-ITM-0004|Laptop charger|black|2026-10-24|1
-ITM-0005|Adopter|Last seen at MB 403|2026-10-24|4
-ITM-0006|Hair Clamp|Flower|2026-10-24|2

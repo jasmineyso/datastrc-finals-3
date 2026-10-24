@@ -1,3 +1,5 @@
+package backend;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -43,8 +45,9 @@ public class ActivityHistory {
         loadActivities();
 
         ArrayList<String> recentActivities = new ArrayList<>();
+        int startIndex = Math.max(0, activities.size() - 10);
 
-        for (int i = activities.size() - 1; i >= activities.size() - 10; i--) {
+        for (int i = activities.size() - 1; i >= startIndex; i--) {
             recentActivities.add(activities.get(i));
         }
 
