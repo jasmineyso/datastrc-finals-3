@@ -44,18 +44,6 @@ public class ActivityHistory {
 
         ArrayList<String> recentActivities = new ArrayList<>();
 
-        for (int i = activities.size() - 1; i >= 0; i--) {
-            recentActivities.add(activities.get(i));
-        }
-
-        return recentActivities;
-    }
-
-    public ArrayList<String> getActivitiesNewestFirst() {
-        loadActivities();
-
-        ArrayList<String> recentActivities = new ArrayList<>();
-
         for (int i = activities.size() - 1; i >= activities.size() - 10; i--) {
             recentActivities.add(activities.get(i));
         }
