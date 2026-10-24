@@ -1,4 +1,4 @@
-ITM-0001|Umbrella|Black Shigetsu|2026-10-18|2
+ITM-0001|Shigetsu Bag|Black|2026-10-18|2
 ITM-0002|Turbo fan|Jisu Life|2026-10-18|3
 ITM-0003|Wallet|Black|2026-10-15|1
 ITM-0004|Phone|Iphone|2026-10-18|3

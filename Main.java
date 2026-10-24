@@ -349,7 +349,7 @@ public class Main {
 
         int menu = Validations.intValidation("Enter Menu Choice: ", 2);
 
-        ArrayList<String> activities = history.getActivitiesNewestFirst();
+        ArrayList<String> activities = history.getRecentActivities();
 
         switch (menu) {
             case 1 -> {
