@@ -89,18 +89,20 @@ public class Main {
 
         Display.displayMenu(
             "All Items",
+            "Sort By Container",
             "Sort by Date",
             "Sort by Items Lost (Unclaimed)",
             "Sort by Items Found (Claimed)"
         );
 
-        int menu = Validations.intValidation("Enter Menu Choice: ", 4);
+        int menu = Validations.intValidation("Enter Menu Choice: ", 5);
 
         switch (menu) {
             case 1 -> displayAllItems(items);
-            case 2 -> sortByDate(items);
-            case 3 -> sortByItemLost(items);
-            case 4 -> sortByItemsFound(items);
+            case 2 -> sortByContainer();
+            case 3 -> sortByDate(items);
+            case 4 -> sortByItemLost(items);
+            case 5 -> sortByItemsFound(items);
         }
     }
 
@@ -390,98 +392,98 @@ public class Main {
         );
     }
 
-    private static int selectAvailableContainer(ArrayList<Item> items, String action) {
-        while (true) {
-
+    private static int selectAvailableContainer(ArrayList<Item> items, String action){
+        boolean doneSelect = false;
+        int container = 0;
+        while(!doneSelect){
             Display.headerTitle(action);
-
             Display.containerSelection(items);
 
-            int container = Validations.intValidation(
-                "        Select Container (1-5): ",
-                5
-            );
-
-            int count = lostAndFound.getContainerItemCount(container);
-
-            // Prevent selection of a full container
-            if (count >= LostAndFound.CONTAINER_CAPACITY) {
-
-                System.out.println();
-                System.out.println("        [!] Container " + container
-                        + " is FULL (" + count + "/"
-                        + LostAndFound.CONTAINER_CAPACITY + ").");
-
-                System.out.println(
-                    "        Please select another available container."
-                );
-
-                System.out.println();
-                continue;
+            container = Validations.intValidation("Select Container (1-5): ", 5);
+            if(lostAndFound.isContainerFull(container)){
+                System.out.println("        Container " + container + " is FULL. Select another container.");
+                doneSelect = false;
             }
+        
 
-            int remaining =
-                LostAndFound.CONTAINER_CAPACITY - count;
+            Display.subHeaderTitle("CONTAINER " + container + " selected.");
 
-            // Display selected container information
-            System.out.println();
-            System.out.println("=".repeat(Display.MENU_WIDTH));
+            int ctr = lostAndFound.getContainerItemCount(container);
+            int remaining = LostAndFound.CONTAINER_CAPACITY - ctr;
 
-            Display.centerText(
-                "CONTAINER " + container + " SELECTED"
-            );
+            System.out.println("\n        Capacity of container " + container + ": " + ctr + "/" + LostAndFound.CONTAINER_CAPACITY);
 
-            System.out.println("=".repeat(Display.MENU_WIDTH));
-
-            System.out.println();
-            System.out.println(
-                "        Capacity of container " + container + ": "
-                + count + "/"
-                + LostAndFound.CONTAINER_CAPACITY
-            );
-
-            System.out.println(
-                "        Available slots: " + remaining
-            );
+            System.out.println("        Available slots: " + remaining);
 
             System.out.println();
             System.out.println("=".repeat(Display.MENU_WIDTH));
 
-            // Ask the user to confirm
-            char confirm = Validations.charValidation(
-                "        Confirm Container " + container + "? (y/n): "
-            );
+            char confirm = Validations.charValidation("        Confirm Container " + container + "? (y/n): ");
 
-            if (confirm == 'y') {
-
-                System.out.println();
-                System.out.println(
-                    "        Container " + container
-                    + " confirmed successfully."
-                );
-
-                System.out.println();
-
-                return container;
+            if(confirm == 'n'){
+                System.out.println("        Container selection cancelled.");
+                doneSelect = false;
+            }else{
+                doneSelect = true;
             }
-
-            System.out.println();
-            System.out.println(
-                "        Container selection cancelled."
-            );
-
-            System.out.println(
-                "        Please select another container."
-            );
-
-            System.out.println();
         }
+
+        return container;
     }
 
     private static void displayAllItems(ArrayList<Item> items) {
         Display.subHeaderTitle("All Items");
         Display.itemsTable(items, "Total items", true);
         logActivity("User Accessed: Displayed All Items");
+    }
+
+    private static void sortByContainer(){
+        Display.headerTitle("Sort by container");
+        ArrayList<Item> items = lostAndFound.getItems();
+
+        if(items.isEmpty()){
+            System.out.println("No items have been reported yet.");
+            return;
+        }
+
+        Display.displayMenu(
+            "Container 1",
+            "Container 2",
+            "Container 3",
+            "Container 4",
+            "Container 5"
+        );
+
+        int menu = Validations.intValidation("Enter Menu Choice: ", 7);
+
+        switch (menu) {
+            case 1 -> sortContainer(menu);
+            case 2 -> sortContainer(menu);
+            case 3 -> sortContainer(menu);
+            case 4 -> sortContainer(menu);
+            case 5 -> sortContainer(menu);
+        }
+    }
+
+    private static void sortContainer(int container){
+        ArrayList<Item> items = lostAndFound.getItems();
+        ArrayList<Item> itemContainer = new ArrayList<>();
+
+        for(Item item : items){
+            if(item.getContainer() == container){
+                itemContainer.add(item);
+            }
+        }
+
+        Display.subHeaderTitle("Sort Container " + container);
+
+        if(itemContainer.isEmpty()){
+            System.out.println("Container is empty.");
+            return;
+        }
+
+        Display.itemsContainer(itemContainer, "Total items");
+        logActivity("User Accessed: Sort by Container");
     }
 
     private static void sortByDate(ArrayList<Item> items) {

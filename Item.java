@@ -3,7 +3,8 @@ public class Item {
   private String itemName;
   private String description;
   private String dateReported;
-  private Status status;
+  private ItemStatus status;
+  private ContainerStatus containerStatus;
   private int container;
 
   public Item(String itemID, String itemName, String description, String dateReported, int container){
@@ -11,8 +12,10 @@ public class Item {
     this.itemName = itemName;
     this.description = description;
     this.dateReported = dateReported;
-    this.status = Status.UNCLAIMED;
     this.container = container;
+
+    this.status = ItemStatus.UNCLAIMED;
+    this.containerStatus = ContainerStatus.AVAILABLE;
   }
 
 
@@ -40,6 +43,10 @@ public class Item {
       return container;
     }
 
+    public String getContainerStatus(){
+      return containerStatus.toString();
+    }
+
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
@@ -50,7 +57,7 @@ public class Item {
 
     public void setStatus(String status){
       if(status != null){
-        this.status = Status.valueOf(status.toUpperCase());
+        this.status = ItemStatus.valueOf(status.toUpperCase());
       }
     }
 
@@ -58,4 +65,13 @@ public class Item {
       this.container = container;
     }
 
+    public void setContainerStatus(int remaining){
+      if(remaining == 0) {
+        this.containerStatus = ContainerStatus.FULL;
+      }else if(remaining <= 10) {
+        this.containerStatus = ContainerStatus.NEAR_FULL;
+      }else{
+        this.containerStatus = ContainerStatus.AVAILABLE;
+      }
+    }
 }

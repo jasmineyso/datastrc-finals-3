@@ -4,52 +4,25 @@ public class Display {
   public static final int MENU_WIDTH = 121;
 
   public static void containerSelection(ArrayList<Item> items) {
-      headerTitle("Select Container");
+    LostAndFound lostAndFound = new LostAndFound();
+    subHeaderTitle("Select Container");
+    String containerStatus = "";
 
-      System.out.println("Available Storage Containers");
-      System.out.println("-".repeat(MENU_WIDTH));
+    for(int container = 1; container <= LostAndFound.CONTAINER_COUNT; container++){
+      int ctr = lostAndFound.getContainerItemCount(container);
+      int remaining = LostAndFound.CONTAINER_CAPACITY - ctr;
 
-      for (int container = 1; container <= LostAndFound.CONTAINER_COUNT; container++) {
-          int count = 0;
-
-          for (Item item : items) {
-              if (item.getContainer() == container
-                      && item.getStatus().equalsIgnoreCase("Unclaimed")) {
-                  count++;
-              }
-          }
-
-          int remaining = LostAndFound.CONTAINER_CAPACITY - count;
-
-          String status;
-
-          if (remaining == 0) {
-              status = "FULL";
-          } else if (remaining <= 10) {
-              status = "NEAR FULL";
-          } else {
-              status = "AVAILABLE";
-          }
-
-          System.out.printf(
-              "        [%d] Container %d    Capacity: %d/%d    Status: %s%n",
-              container,
-              container,
-              count,
-              LostAndFound.CONTAINER_CAPACITY,
-              status
-          );
+      for(Item item : items){
+        if(item.getContainer() == container){
+          item.setContainerStatus(remaining);
+          containerStatus = item.getContainerStatus();
+        }
       }
-
-      System.out.println("-".repeat(MENU_WIDTH));
-      System.out.println("        [0] Return to Main Menu");
-      System.out.println();
-
-      System.out.println(
-          "        Note: Full containers cannot be selected."
-      );
-
-      System.out.println();
+      System.out.printf("        [%d] Container %d    Capacity: %d/%d    Status: %s%n", container, container, ctr, LostAndFound.CONTAINER_CAPACITY, containerStatus);
+    }
+    System.out.println("-".repeat(MENU_WIDTH));
+    System.out.println("        Note: Full containers cannot be selected.");
+    System.out.println();
   }
 
 
@@ -117,6 +90,25 @@ public class Display {
           item.getDateReported(),
           item.getContainer(),
           item.getStatus());
+    }
+
+    System.out.println(lightLine);
+    System.out.println(" " + totalLabel + ": " + items.size());
+  }
+
+  public static void itemsContainer(ArrayList<Item> items, String totalLabel){
+    String lightLine = "-".repeat(MENU_WIDTH);
+
+    System.out.printf("%-20s | %-25s | %-40s | %-13s%n", "ITEM ID", "ITEM NAME", "DESCRIPTION", "DATE");
+    System.out.println(lightLine);
+
+    for(Item item : items){
+      System.out.printf("%-20s | %-25s | %-40s | %-13s%n",
+        item.getItemID(),
+        fit(item.getItemName(), 22),
+        fit(item.getDescription(), 40),
+        item.getDateReported()
+      );
     }
 
     System.out.println(lightLine);

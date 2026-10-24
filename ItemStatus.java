@@ -1,10 +1,10 @@
-public enum Status {
+public enum ItemStatus {
   CLAIMED("Claimed"),
   UNCLAIMED("Unclaimed");
 
   private final String label;
 
-  Status(String label){
+  ItemStatus(String label){
     this.label = label;
   }
 
