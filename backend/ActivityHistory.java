@@ -1,3 +1,5 @@
+package backend;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class ActivityHistory {
-    private static final String FILE_NAME = "ACTIVITY.txt";
+    private static final File FILE = FileInitializer.ACTIVITY_FILE;
     public Stack<String> activities = new Stack<>();
 
     public ActivityHistory() {
@@ -43,8 +45,9 @@ public class ActivityHistory {
         loadActivities();
 
         ArrayList<String> recentActivities = new ArrayList<>();
+        int startIndex = Math.max(0, activities.size() - 10);
 
-        for (int i = activities.size() - 1; i >= activities.size() - 10; i--) {
+        for (int i = activities.size() - 1; i >= startIndex; i--) {
             recentActivities.add(activities.get(i));
         }
 
@@ -73,7 +76,7 @@ public class ActivityHistory {
     private void loadActivities() {
         activities.clear();
 
-        File file = new File(FILE_NAME);
+        File file = FILE;
 
         if (!file.exists()) {
             return;
@@ -97,7 +100,7 @@ public class ActivityHistory {
 
     private void appendActivity(String activity) {
         try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter(FILE_NAME, true))) {
+                new FileWriter(FILE, true))) {
 
             writer.write(activity);
             writer.newLine();

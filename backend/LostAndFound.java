@@ -1,3 +1,5 @@
+package backend;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,13 +21,7 @@ public class LostAndFound {
     }
 
     private void initializeFile() {
-        File file = new File("ITEMS.txt");
-
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            System.out.println("Error initializing item file!");
-        }
+        FileInitializer.initializeFiles();
     }
 
     public String buildItemRecord(Item item){
@@ -42,7 +38,7 @@ public class LostAndFound {
     private void loadItems() {
         items.clear();
 
-        File file = new File("ITEMS.txt");
+        File file = FileInitializer.ITEMS_FILE;
         if(!file.exists()){return;}
 
         try (BufferedReader reader = new BufferedReader(
@@ -80,7 +76,7 @@ public class LostAndFound {
     }
 
     public void saveItems(String itemRecord) {
-        try(BufferedWriter out = new BufferedWriter(new FileWriter("ITEMS.txt", true))){
+        try(BufferedWriter out = new BufferedWriter(new FileWriter(FileInitializer.ITEMS_FILE, true))){
             out.write(itemRecord);
             out.newLine();
         }catch(IOException e){
@@ -182,7 +178,7 @@ public class LostAndFound {
     }
 
     private void rewriteFile(){
-        try(BufferedWriter out = new BufferedWriter(new FileWriter("ITEMS.txt"))){
+        try(BufferedWriter out = new BufferedWriter(new FileWriter(FileInitializer.ITEMS_FILE))){
             for(Item item : items){
                 out.write(buildItemRecord(item));
                 out.newLine();
