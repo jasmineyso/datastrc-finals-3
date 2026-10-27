@@ -11,7 +11,7 @@ import java.util.Stack;
 
 public class ActivityHistory {
     private static final File FILE = FileInitializer.ACTIVITY_FILE;
-    public Stack<String> activities = new Stack<>();
+    private Stack<String> activities = new Stack<>();
 
     public ActivityHistory() {
         loadActivities();
